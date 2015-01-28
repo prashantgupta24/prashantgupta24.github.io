@@ -117,7 +117,7 @@ div#navbar {
     left: 0;
     width: 100%;
     height: 51px;
-    background: url(../images/navbar_blue.png) no-repeat center top;
+   
     display: inline; }
  
 div#container {
@@ -155,7 +155,7 @@ h2 {
  
 div#work h2,
     div#projects h2,
-    div#contact h2 {
+    div#contact h2 , div#contact1 h2{
     font: bold 20px/50px 'Oswald';
     color: #1d7ccc;
     text-transform: uppercase;
@@ -610,7 +610,7 @@ __________________________________________________________
 /*                                                 CONTACT
 __________________________________________________________
 */
-div#contact { /* min-height: 300px;*/ }
+div#contact1 {  min-height: 400px; }
  
 .contactContainer {
     margin-top: 30px;
