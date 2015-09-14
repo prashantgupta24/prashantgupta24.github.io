@@ -341,10 +341,10 @@ __________________________________________________________
         position: relative;
         cursor: pointer;
         overflow: hidden;
-        height: 215px;
+        height: 200px;
         border: 1px solid #fff;
         box-shadow: 0 0 2px #333;
-        width: 288px; }
+        width: 270px; }
  
         .projectsContainer .prjGrid .item.last { margin-right: 0; }
  
