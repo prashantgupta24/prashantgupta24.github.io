@@ -74,6 +74,10 @@ __________________________________________________________
     min-height: 10px;
 	}
 	
+.lg {
+	width: 250px;
+	}
+	
 	.gridCust {
     float: left;
     width: 250px;
@@ -278,10 +282,13 @@ __________________________________________________________
     width: 195px;
     height: 195px;
     float: left;
-    margin: 0 45px 0 50px; }
+    margin: 0 25px 0 50px; }
  
-.about_text { margin-left: 32px; }
+.rg { margin-left: 0px; }
  
+ .mg {
+	width: 392px;
+	}
     .about_text p {
 		  font: normal 15px/22px 'Oswald';
         color: #333; }
@@ -297,7 +304,8 @@ __________________________________________________________
  
 div#headline {
     margin-top: 50px;
-    margin-left: 32px; }
+    margin-left: 32px;
+	margin-right: 15px;	}
  
     div#headline h1 {
         font: normal 40px/56px 'Oswald';
