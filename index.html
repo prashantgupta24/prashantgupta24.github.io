@@ -36,6 +36,8 @@
         .nav-link {
             position: relative;
             transition: color 0.3s ease;
+            padding: 8px 0;
+            /* Added padding for better touch targets in mobile menu */
         }
 
         .nav-link::after {
@@ -60,79 +62,123 @@
             /* Orange accent for hover text */
         }
 
+        /* Hide scrollbar for animation observer, but keep scroll functional */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            /* IE and Edge */
+            scrollbar-width: none;
+            /* Firefox */
+        }
+
         .btn-primary {
             background-color: #F97316;
             /* Orange */
             color: white;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, transform 0.2s ease;
         }
 
         .btn-primary:hover {
             background-color: #EA580C;
             /* Darker Orange */
+            transform: scale(1.05);
         }
 
         .btn-secondary {
             background-color: #10B981;
             /* Green */
             color: white;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, transform 0.2s ease;
         }
 
         .btn-secondary:hover {
             background-color: #059669;
             /* Darker Green */
+            transform: scale(1.05);
         }
 
         .btn-tertiary {
-            /* New button style for the second button */
             background-color: #3B82F6;
             /* Blue */
             color: white;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, transform 0.2s ease;
         }
 
         .btn-tertiary:hover {
             background-color: #2563EB;
             /* Darker Blue */
+            transform: scale(1.05);
+        }
+
+        /* Mobile menu icon transition */
+        #menu-icon span {
+            transition: all 0.3s ease-in-out;
+        }
+
+        #menu-icon.open span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        #menu-icon.open span:nth-child(2) {
+            opacity: 0;
+        }
+
+        #menu-icon.open span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
         }
     </style>
 </head>
 
-<body class="bg-slate-900 text-slate-100">
+<body class="bg-slate-900 text-slate-100 hide-scrollbar">
 
     <nav class="bg-slate-800/80 backdrop-blur-md shadow-lg fixed w-full z-50 top-0">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#" class="text-2xl font-bold text-white">Prashant Gupta</a>
-            <div class="space-x-6">
-                <a href="#about" class="nav-link text-slate-200 hover:text-orange-400">About</a>
-                <a href="#projects" class="nav-link text-slate-200 hover:text-orange-400">Projects</a>
-                <a href="#contact" class="nav-link text-slate-200 hover:text-orange-400">Contact</a>
+        <div class="container mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-xl sm:text-2xl font-bold text-white">Prashant Gupta</a>
+            <div class="hidden md:flex space-x-6">
+                <a href="#about" class="nav-link text-slate-200">About</a>
+                <a href="#projects" class="nav-link text-slate-200">Projects</a>
+                <a href="#contact" class="nav-link text-slate-200">Contact</a>
             </div>
+            <div class="md:hidden">
+                <button id="menu-icon" class="text-slate-200 focus:outline-none">
+                    <span class="block w-6 h-0.5 bg-current mb-1.5"></span>
+                    <span class="block w-6 h-0.5 bg-current mb-1.5"></span>
+                    <span class="block w-6 h-0.5 bg-current"></span>
+                </button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="md:hidden hidden bg-slate-800">
+            <a href="#about" class="block nav-link text-slate-200 px-4 py-3 hover:bg-slate-700">About</a>
+            <a href="#projects" class="block nav-link text-slate-200 px-4 py-3 hover:bg-slate-700">Projects</a>
+            <a href="#contact" class="block nav-link text-slate-200 px-4 py-3 hover:bg-slate-700">Contact</a>
         </div>
     </nav>
 
-    <section id="home" class="hero-bg pt-24 pb-16 md:pt-32 md:pb-24 text-white">
-        <div class="container mx-auto px-6 text-center">
+    <section id="home" class="hero-bg pt-20 pb-12 md:pt-32 md:pb-24 text-white">
+        <div class="container mx-auto px-4 sm:px-6 text-center">
             <img src="https://avatars.githubusercontent.com/u/9909241?v=4" alt="Prashant Gupta"
-                class="w-32 h-32 md:w-40 md:h-40 mx-auto rounded-full mb-8 shadow-xl border-4 border-white">
-            <h1 class="text-4xl md:text-6xl font-bold mb-4">Hi, I'm Prashant Gupta!</h1>
-            <p class="text-lg md:text-2xl mb-8 max-w-3xl mx-auto">
+                class="w-28 h-28 sm:w-32 sm:h-32 md:w-40 md:h-40 mx-auto rounded-full mb-6 sm:mb-8 shadow-xl border-4 border-white">
+            <h1 class="text-3xl sm:text-4xl md:text-6xl font-bold mb-3 sm:mb-4">Hi, I'm Prashant Gupta!</h1>
+            <p class="text-md sm:text-lg md:text-2xl mb-6 sm:mb-8 max-w-3xl mx-auto">
                 I'm a passionate AI engineer determined to leave the world a better place than how I found it. Welcome
                 to my personal space on the web!
             </p>
             <a href="#projects"
-                class="btn-primary font-semibold py-3 px-8 rounded-lg text-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-300">
+                class="btn-primary font-semibold py-2 px-6 sm:py-3 sm:px-8 rounded-lg text-base sm:text-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-300">
                 View My Work
             </a>
         </div>
     </section>
 
-    <section id="about" class="py-16 md:py-24 bg-slate-800">
-        <div class="container mx-auto px-6">
-            <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 section-title">About Me</h2>
-            <div class="flex flex-col md:flex-row items-center gap-10 md:gap-16">
-                <div class="md:w-1/2 text-lg text-slate-300 space-y-4">
+    <section id="about" class="py-12 md:py-24 bg-slate-800">
+        <div class="container mx-auto px-4 sm:px-6">
+            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-10 md:mb-12 section-title">About Me
+            </h2>
+            <div class="flex flex-col md:flex-row items-center gap-8 md:gap-16">
+                <div class="md:w-1/2 text-base sm:text-lg text-slate-300 space-y-4">
                     <p>
                         Hello! I'm Prashant Gupta, an AI engineer based in San Jose, California.
                     </p>
@@ -146,127 +192,126 @@
                         learn new things and take on challenging projects.
                     </p>
                     <a href="#contact"
-                        class="inline-block mt-6 btn-secondary font-semibold py-3 px-6 rounded-lg text-md shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-300">
+                        class="inline-block mt-6 btn-secondary font-semibold py-2 px-5 sm:py-3 sm:px-6 rounded-lg text-sm sm:text-md shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-300">
                         Get In Touch
                     </a>
                 </div>
-                <div class="md:w-1/2">
+                <div class="md:w-1/2 mt-8 md:mt-0">
                     <img src="https://github.com/prashantgupta24/prashantgupta24.github.io/blob/443fa77a366b4d0d06a1d19908b0d36273197c5c/assets/_REV5384.jpg?raw=true"
-                        alt="About me illustration or photo" class="rounded-lg shadow-2xl w-full">
+                        alt="About me illustration or photo"
+                        class="rounded-lg shadow-2xl w-full max-w-md mx-auto md:max-w-full">
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="projects" class="py-16 md:py-24 bg-slate-900">
-        <div class="container mx-auto px-6">
-            <h2 class="text-3xl md:text-4xl font-bold text-center mb-16 section-title">My Projects</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                <div class="project-card bg-slate-800 rounded-xl shadow-xl overflow-hidden">
+    <section id="projects" class="py-12 md:py-24 bg-slate-900">
+        <div class="container mx-auto px-4 sm:px-6">
+            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-10 md:mb-16 section-title">My Projects
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+                <div class="project-card bg-slate-800 rounded-xl shadow-xl overflow-hidden flex flex-col">
                     <img src="https://research.ibm.com/_next/image?url=https%3A%2F%2Fresearch-website-prod-cms-uploads.s3.us.cloud-object-storage.appdomain.cloud%2FIBM_Research_AIU_Chip_3_b2c4338886.jpg&w=1080&q=75"
-                        alt="Project 1" class="w-full h-56 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-2xl font-semibold mb-3 text-orange-400">vLLM Spyre</h3>
-                        <p class="text-slate-300 mb-4">
+                        alt="Project 1" class="w-full h-48 sm:h-56 object-cover">
+                    <div class="p-5 sm:p-6 flex flex-col flex-grow">
+                        <h3 class="text-xl sm:text-2xl font-semibold mb-2 sm:mb-3 text-orange-400">vLLM Spyre</h3>
+                        <p class="text-sm sm:text-base text-slate-300 mb-3 sm:mb-4 flex-grow">
                             The vLLM Spyre plugin (vllm-spyre) is a dedicated backend extension that enables seamless
-                            integration of IBM Spyre Accelerator with vLLM. It follows the architecture described in
-                            vLLM’s Plugin System, making it easy to integrate IBM’s advanced AI acceleration into
-                            existing vLLM workflows.
+                            integration of IBM Spyre Accelerator with vLLM...
                         </p>
-                        <div class="mb-4">
+                        <div class="mb-3 sm:mb-4">
                             <span
-                                class="inline-block bg-sky-600 text-sky-100 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">inference</span>
+                                class="inline-block bg-sky-600 text-sky-100 text-xs font-semibold mr-2 mb-1 px-2.5 py-0.5 rounded-full">inference</span>
                             <span
-                                class="inline-block bg-emerald-600 text-emerald-100 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">LLM</span>
+                                class="inline-block bg-emerald-600 text-emerald-100 text-xs font-semibold mr-2 mb-1 px-2.5 py-0.5 rounded-full">LLM</span>
                             <span
-                                class="inline-block bg-purple-600 text-purple-100 text-xs font-semibold px-2.5 py-0.5 rounded-full">Python</span>
+                                class="inline-block bg-purple-600 text-purple-100 text-xs font-semibold mb-1 px-2.5 py-0.5 rounded-full">Python</span>
                         </div>
-                        <div class="flex space-x-3">
+                        <div class="flex flex-col sm:flex-row sm:space-x-3 space-y-2 sm:space-y-0 mt-auto">
                             <a href="https://github.com/vllm-project/vllm-spyre"
-                                class="btn-primary font-medium py-2 px-5 rounded-lg text-sm inline-block hover:shadow-md">View
+                                class="btn-primary w-full sm:w-auto text-center font-medium py-2 px-4 rounded-lg text-xs sm:text-sm inline-block hover:shadow-md">View
                                 Project</a>
                             <a href="https://docs.vllm.ai/en/latest/"
-                                class="btn-tertiary font-medium py-2 px-5 rounded-lg text-sm inline-block hover:shadow-md">What's
+                                class="btn-tertiary w-full sm:w-auto text-center font-medium py-2 px-4 rounded-lg text-xs sm:text-sm inline-block hover:shadow-md">What's
                                 vLLM?</a>
                         </div>
                     </div>
                 </div>
 
-                <div class="project-card bg-slate-800 rounded-xl shadow-xl overflow-hidden">
+                <div class="project-card bg-slate-800 rounded-xl shadow-xl overflow-hidden flex flex-col">
                     <img src="https://d7umqicpi7263.cloudfront.net/img/product/4818ab01-f670-4114-9e6c-8628797ffd08.jpg"
-                        alt="Project 2" class="w-full h-56 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-2xl font-semibold mb-3 text-emerald-400">IBM watsonx</h3>
-                        <p class="text-slate-300 mb-4">
+                        alt="Project 2" class="w-full h-48 sm:h-56 object-cover">
+                    <div class="p-5 sm:p-6 flex flex-col flex-grow">
+                        <h3 class="text-xl sm:text-2xl font-semibold mb-2 sm:mb-3 text-emerald-400">IBM watsonx</h3>
+                        <p class="text-sm sm:text-base text-slate-300 mb-3 sm:mb-4 flex-grow">
                             IBM watsonx is a portfolio of AI products that accelerates the impact of generative AI in
-                            core workflows to drive productivity.
-
-                            Choose an open source foundation model, bring your own, or use existing models. And run it
-                            across any cloud. Use open, transparent technology. And employ governance and security
-                            controls for easier compliance.
+                            core workflows to drive productivity...
                         </p>
-                        <div class="mb-4">
+                        <div class="mb-3 sm:mb-4">
                             <span
-                                class="inline-block bg-rose-600 text-rose-100 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">inference</span>
+                                class="inline-block bg-rose-600 text-rose-100 text-xs font-semibold mr-2 mb-1 px-2.5 py-0.5 rounded-full">inference</span>
                             <span
-                                class="inline-block bg-amber-500 text-amber-100 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">LLM</span>
+                                class="inline-block bg-amber-500 text-amber-100 text-xs font-semibold mr-2 mb-1 px-2.5 py-0.5 rounded-full">LLM</span>
                             <span
-                                class="inline-block bg-indigo-600 text-indigo-100 text-xs font-semibold px-2.5 py-0.5 rounded-full">Python</span>
+                                class="inline-block bg-indigo-600 text-indigo-100 text-xs font-semibold mb-1 px-2.5 py-0.5 rounded-full">Python</span>
                         </div>
-                        <a href="https://www.ibm.com/watsonx"
-                            class="btn-secondary font-medium py-2 px-5 rounded-lg text-sm inline-block hover:shadow-md">Explore
-                            more</a>
+                        <div class="mt-auto">
+                            <a href="https://www.ibm.com/watsonx"
+                                class="btn-secondary w-full sm:w-auto text-center font-medium py-2 px-4 rounded-lg text-xs sm:text-sm inline-block hover:shadow-md">Explore
+                                more</a>
+                        </div>
                     </div>
                 </div>
 
-                <div class="project-card bg-slate-800 rounded-xl shadow-xl overflow-hidden">
+                <div class="project-card bg-slate-800 rounded-xl shadow-xl overflow-hidden flex flex-col">
                     <img src="https://www.jotform.com/blog/wp-content/uploads/2020/05/work-from-home-featured-02.png"
-                        alt="Project 3" class="w-full h-56 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-2xl font-semibold mb-3 text-indigo-400">Automatic mouse mover</h3>
-                        <p class="text-slate-300 mb-4">
+                        alt="Project 3" class="w-full h-48 sm:h-56 object-cover">
+                    <div class="p-5 sm:p-6 flex flex-col flex-grow">
+                        <h3 class="text-xl sm:text-2xl font-semibold mb-2 sm:mb-3 text-indigo-400">Automatic mouse mover
+                        </h3>
+                        <p class="text-sm sm:text-base text-slate-300 mb-3 sm:mb-4 flex-grow">
                             A minimalistic go library/app to keep your mac active and alive! The simplest app that has
-                            the sole purpose of moving your mouse pointer at regular intervals so that your machine is
-                            kept awake! And best of all, it works ONLY when you are not working, so be rest assured that
-                            the mouse won't start moving on its own without the machine actually being idle.
+                            the sole purpose of moving your mouse pointer at regular intervals...
                         </p>
-                        <div class="mb-4">
+                        <div class="mb-3 sm:mb-4">
                             <span
-                                class="inline-block bg-teal-600 text-teal-100 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">Golang</span>
+                                class="inline-block bg-teal-600 text-teal-100 text-xs font-semibold mr-2 mb-1 px-2.5 py-0.5 rounded-full">Golang</span>
                             <span
-                                class="inline-block bg-pink-600 text-pink-100 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">WFH</span>
+                                class="inline-block bg-pink-600 text-pink-100 text-xs font-semibold mr-2 mb-1 px-2.5 py-0.5 rounded-full">WFH</span>
                             <span
-                                class="inline-block bg-yellow-500 text-yellow-100 text-xs font-semibold px-2.5 py-0.5 rounded-full">Multi-threaded</span>
+                                class="inline-block bg-yellow-500 text-yellow-100 text-xs font-semibold mb-1 px-2.5 py-0.5 rounded-full">Multi-threaded</span>
                         </div>
-                        <a href="https://github.com/prashantgupta24/automatic-mouse-mover"
-                            class="font-medium py-2 px-5 rounded-lg text-sm inline-block bg-indigo-500 hover:bg-indigo-600 text-white transition-colors">See
-                            Project</a>
+                        <div class="mt-auto">
+                            <a href="https://github.com/prashantgupta24/automatic-mouse-mover"
+                                class="font-medium py-2 px-4 rounded-lg text-xs sm:text-sm inline-block bg-indigo-500 hover:bg-indigo-600 text-white transition-colors w-full sm:w-auto text-center">See
+                                Project</a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="contact" class="py-16 md:py-24 bg-slate-800">
-        <div class="container mx-auto px-6 text-center">
-            <h2 class="text-3xl md:text-4xl font-bold mb-6 section-title">Get In Touch</h2>
-            <p class="text-lg text-slate-300 mb-10 max-w-2xl mx-auto">
+    <section id="contact" class="py-12 md:py-24 bg-slate-800">
+        <div class="container mx-auto px-4 sm:px-6 text-center">
+            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-5 sm:mb-6 section-title">Get In Touch</h2>
+            <p class="text-base sm:text-lg text-slate-300 mb-8 sm:mb-10 max-w-2xl mx-auto">
                 I'm always open to discussing new projects, creative ideas, or opportunities to be part of something
                 amazing. Feel free to reach out!
             </p>
             <a href="mailto:prashant@pgupta.com"
-                class="btn-primary font-semibold py-4 px-10 rounded-lg text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 inline-flex items-center">
+                class="btn-primary font-semibold py-3 px-6 sm:py-4 sm:px-10 rounded-lg text-base sm:text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 inline-flex items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="w-6 h-6 mr-3">
+                    stroke="currentColor" class="w-5 h-5 sm:w-6 sm:h-6 mr-2 sm:mr-3">
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
                 </svg>
                 Email Me
             </a>
-            <div class="mt-12 flex justify-center space-x-6">
+            <div class="mt-10 sm:mt-12 flex justify-center space-x-5 sm:space-x-6">
                 <a href="https://github.com/prashantgupta24" target="_blank" rel="noopener noreferrer"
                     class="text-slate-400 hover:text-orange-400 transition-colors">
-                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <svg class="w-7 h-7 sm:w-8 sm:h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                         <path fill-rule="evenodd"
                             d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.001 10.001 0 0022 12.017C22 6.484 17.522 2 12 2z"
                             clip-rule="evenodd" />
@@ -275,7 +320,7 @@
                 </a>
                 <a href="https://www.linkedin.com/in/prashantgupta24/" target="_blank" rel="noopener noreferrer"
                     class="text-slate-400 hover:text-orange-400 transition-colors">
-                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <svg class="w-7 h-7 sm:w-8 sm:h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                         <path fill-rule="evenodd"
                             d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"
                             clip-rule="evenodd" />
@@ -286,22 +331,51 @@
         </div>
     </section>
 
-    <footer class="bg-slate-950 text-slate-400 py-8 text-center">
-        <div class="container mx-auto px-6">
-            <p>&copy; <span id="currentYear"></span> Prashant Gupta. All rights reserved.</p>
-            <p class="text-sm mt-1">Designed with <span class="text-red-500">&hearts;</span> using Tailwind CSS.</p>
+    <footer class="bg-slate-950 text-slate-400 py-6 sm:py-8 text-center">
+        <div class="container mx-auto px-4 sm:px-6">
+            <p class="text-sm">&copy; <span id="currentYear"></span> Prashant Gupta. All rights reserved.</p>
+            <p class="text-xs sm:text-sm mt-1">Designed with <span class="text-red-500">&hearts;</span> using Tailwind
+                CSS.</p>
         </div>
     </footer>
 
     <script>
+        // Mobile menu toggle
+        const menuIcon = document.getElementById('menu-icon');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navLinks = mobileMenu.querySelectorAll('a');
+
+        menuIcon.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            menuIcon.classList.toggle('open');
+        });
+
+        // Close mobile menu when a link is clicked
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                menuIcon.classList.remove('open');
+            });
+        });
+
         // Smooth scroll for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const targetId = this.getAttribute('href');
+                // If it's a mobile menu link, ensure menu closes before scrolling
+                if (mobileMenu.contains(this) && !mobileMenu.classList.contains('hidden')) {
+                    mobileMenu.classList.add('hidden');
+                    menuIcon.classList.remove('open');
+                }
                 const targetElement = document.querySelector(targetId);
                 if (targetElement) {
-                    targetElement.scrollIntoView({
+                    // Account for fixed navbar height
+                    const navbarHeight = document.querySelector('nav').offsetHeight;
+                    const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navbarHeight;
+
+                    window.scrollTo({
+                        top: targetPosition,
                         behavior: 'smooth'
                     });
                 }
@@ -311,20 +385,21 @@
         // Set current year in footer
         document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-        // Simple scroll animation for project cards (optional, can be enhanced)
-        const projectCards = document.querySelectorAll('.project-card');
+        // Intersection Observer for scroll animations
+        const animatedElements = document.querySelectorAll('.project-card, #about .md\\:w-1\\/2 > p, #about .md\\:w-1\\/2 > a, #about .md\\:w-1\\/2 > img');
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('opacity-100', 'transform', 'translate-y-0', 'transition-all', 'duration-700', 'ease-out');
+                    entry.target.classList.add('opacity-100', 'transform', 'translate-y-0');
                     entry.target.classList.remove('opacity-0', 'translate-y-10');
+                    observer.unobserve(entry.target); // Optional: stop observing after animation
                 }
             });
         }, { threshold: 0.1 });
 
-        projectCards.forEach(card => {
-            card.classList.add('opacity-0', 'translate-y-10'); // Initial state for animation
-            observer.observe(card);
+        animatedElements.forEach(el => {
+            el.classList.add('opacity-0', 'translate-y-10', 'transition-all', 'duration-700', 'ease-out');
+            observer.observe(el);
         });
     </script>
 
