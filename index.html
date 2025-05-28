@@ -1,387 +1,331 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"> 
-<html>
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<meta http-equiv="Lang" content="en"/>
-<meta http-equiv="Reply-to" content=""/>
+    <meta charset="UTF-T">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Personal Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
 
-<title>Prashant Gupta</title>
+        .hero-bg {
+            background: linear-gradient(135deg, #6EE7B7 0%, #3B82F6 100%);
+        }
 
-<link href="favicon.ico" type="image/gif" rel="icon" />
-<link id="mainCSS" rel="stylesheet" type="text/css" href="css/style.css"/>
-<link id="mainCSS" rel="stylesheet" type="text/css" href="css/skins.css"/>
-<link rel="stylesheet" type="text/css" href="css/skins.css" />
+        .project-card {
+            transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+        }
 
-<link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css' />
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
 
-<script charset="utf-8" type="text/javascript" src="js/jquery.1.4.2.min.js"></script>
-<script type= "text/javascript" src="js/queryLoader.js" ></script>
-<script type="text/javascript" src="js/jquery.backgroundposition.js"></script>
-<script type="text/javascript" src="js/jquery.smooth-scroll.js"></script>
-<script type="text/javascript" src="js/sp.js"></script>
-<script type="text/javascript" src="js/js.js"></script>
-<script type="text/javascript" src="js/skins.js"></script>
+        .section-title {
+            background: -webkit-linear-gradient(45deg, #F97316, #EC4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #F97316;
+            /* Orange accent */
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-link:hover {
+            color: #F97316;
+            /* Orange accent for hover text */
+        }
+
+        .btn-primary {
+            background-color: #F97316;
+            /* Orange */
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #EA580C;
+            /* Darker Orange */
+        }
+
+        .btn-secondary {
+            background-color: #10B981;
+            /* Green */
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background-color: #059669;
+            /* Darker Green */
+        }
+
+        .btn-tertiary {
+            /* New button style for the second button */
+            background-color: #3B82F6;
+            /* Blue */
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-tertiary:hover {
+            background-color: #2563EB;
+            /* Darker Blue */
+        }
+    </style>
 </head>
 
-<body id="body_pat" class="blue">
-<div id="wrapper">
-<!------------------------- TOOLS -->
-    
+<body class="bg-slate-900 text-slate-100">
 
-
-<!------------------------- NAVIGATION -->
-
-    <div id="navbarHolder">
-        <div id="navbar">
-            <ul>
-                                
-                <li><a id="nav_about" href="#about">ABOUT<span class="m_w">ABOUT</span><span class="m_r">ABOUT</span></a></li>
-                <li><a id="nav_work" href="#work">WORK<span class="m_w">WORK</span><span class="m_r">WORK</span></a></li>
-                <li><a id="nav_projects" href="#projects">Projects<span class="m_w">Projects</span><span class="m_r">Projects</span></a></li>
-                <li><a id="nav_contact" href="#contact1">More Info<span class="m_w">More Info</span><span class="m_r">More Info</span></a></li>
-            </ul>
+    <nav class="bg-slate-800/80 backdrop-blur-md shadow-lg fixed w-full z-50 top-0">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-white">Prashant Gupta</a>
+            <div class="space-x-6">
+                <a href="#about" class="nav-link text-slate-200 hover:text-orange-400">About</a>
+                <a href="#projects" class="nav-link text-slate-200 hover:text-orange-400">Projects</a>
+                <a href="#contact" class="nav-link text-slate-200 hover:text-orange-400">Contact</a>
+            </div>
         </div>
-    </div><!-- end div #navbarHolder -->
+    </nav>
 
-<!------------------------- CONTENT -->
-    
-    <div id="container">
-        <div id="logo" title="Prashant Gupta" class="site-message-absolute">
-            <div class="nav_logo_w"></div>
+    <section id="home" class="hero-bg pt-24 pb-16 md:pt-32 md:pb-24 text-white">
+        <div class="container mx-auto px-6 text-center">
+            <img src="https://avatars.githubusercontent.com/u/9909241?v=4" alt="Prashant Gupta"
+                class="w-32 h-32 md:w-40 md:h-40 mx-auto rounded-full mb-8 shadow-xl border-4 border-white">
+            <h1 class="text-4xl md:text-6xl font-bold mb-4">Hi, I'm Prashant Gupta!</h1>
+            <p class="text-lg md:text-2xl mb-8 max-w-3xl mx-auto">
+                I'm a passionate AI engineer determined to leave the world a better place than how I found it. Welcome
+                to my personal space on the web!
+            </p>
+            <a href="#projects"
+                class="btn-primary font-semibold py-3 px-8 rounded-lg text-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-300">
+                View My Work
+            </a>
         </div>
+    </section>
 
-<!------------------------- ABOUT -->
-        
-        <div id="about">
-            <a id="logo_big" title="John Doe" href="index.html"></a>
-            <div id="headline" class="left grid">
-                <h1>Prashant Gupta</h1>
-                <h2><span>Java Programmer & Android Developer</span><br /><a href="mailto:pgupta7@ncsu.edu">prashant@pgupta.com</a></h2>
+    <section id="about" class="py-16 md:py-24 bg-slate-800">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 section-title">About Me</h2>
+            <div class="flex flex-col md:flex-row items-center gap-10 md:gap-16">
+                <div class="md:w-1/2 text-lg text-slate-300 space-y-4">
+                    <p>
+                        Hello! I'm Prashant Gupta, an AI engineer based in San Jose, California.
+                    </p>
+                    <p>
+                        My journey into Computer Science began while pursuing my Masters in CS from North Carolina State
+                        University. Since then, I've been dedicated to honing my skills in Cloud, DevOps, and now AI,
+                        and applying them to create impactful projects.
+                    </p>
+                    <p>
+                        When I'm not coding or designing, I enjoy dancing and playing Pickleball. I'm always eager to
+                        learn new things and take on challenging projects.
+                    </p>
+                    <a href="#contact"
+                        class="inline-block mt-6 btn-secondary font-semibold py-3 px-6 rounded-lg text-md shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-300">
+                        Get In Touch
+                    </a>
+                </div>
+                <div class="md:w-1/2">
+                    <img src="https://github.com/prashantgupta24/prashantgupta24.github.io/blob/443fa77a366b4d0d06a1d19908b0d36273197c5c/assets/_REV5384.jpg?raw=true"
+                        alt="About me illustration or photo" class="rounded-lg shadow-2xl w-full">
+                </div>
             </div>
-            <div id="about_pict" class="grid"><img src="images/my_picture.jpg" alt="Prashant Gupta | Portfolio" /></div>
-            <div class="clear">&nbsp;</div>
-            <div class="left grid lg"></div>
-            <div class="left grid about_text mg">
-				<p>
-					<img src="images/intro5.gif" alt="Prashant Gupta | Portfolio" />
-				</p>
+        </div>
+    </section>
+
+    <section id="projects" class="py-16 md:py-24 bg-slate-900">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-16 section-title">My Projects</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                <div class="project-card bg-slate-800 rounded-xl shadow-xl overflow-hidden">
+                    <img src="https://research.ibm.com/_next/image?url=https%3A%2F%2Fresearch-website-prod-cms-uploads.s3.us.cloud-object-storage.appdomain.cloud%2FIBM_Research_AIU_Chip_3_b2c4338886.jpg&w=1080&q=75"
+                        alt="Project 1" class="w-full h-56 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-semibold mb-3 text-orange-400">vLLM Spyre</h3>
+                        <p class="text-slate-300 mb-4">
+                            The vLLM Spyre plugin (vllm-spyre) is a dedicated backend extension that enables seamless
+                            integration of IBM Spyre Accelerator with vLLM. It follows the architecture described in
+                            vLLM’s Plugin System, making it easy to integrate IBM’s advanced AI acceleration into
+                            existing vLLM workflows.
+                        </p>
+                        <div class="mb-4">
+                            <span
+                                class="inline-block bg-sky-600 text-sky-100 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">inference</span>
+                            <span
+                                class="inline-block bg-emerald-600 text-emerald-100 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">LLM</span>
+                            <span
+                                class="inline-block bg-purple-600 text-purple-100 text-xs font-semibold px-2.5 py-0.5 rounded-full">Python</span>
+                        </div>
+                        <div class="flex space-x-3"> <a href="https://github.com/vllm-project/vllm-spyre"
+                                class="btn-primary font-medium py-2 px-5 rounded-lg text-sm inline-block hover:shadow-md">View
+                                Project</a>
+                            <a href="https://docs.vllm.ai/en/latest/"
+                                class="btn-tertiary font-medium py-2 px-5 rounded-lg text-sm inline-block hover:shadow-md">What's
+                                vLLM?</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card bg-slate-800 rounded-xl shadow-xl overflow-hidden">
+                    <img src="https://d7umqicpi7263.cloudfront.net/img/product/4818ab01-f670-4114-9e6c-8628797ffd08.jpg"
+                        alt="Project 2" class="w-full h-56 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-semibold mb-3 text-emerald-400">IBM watsonx</h3>
+                        <p class="text-slate-300 mb-4">
+                            IBM watsonx is a portfolio of AI products that accelerates the impact of generative AI in
+                            core workflows to drive productivity.
+
+                            Choose an open source foundation model, bring your own, or use existing models. And run it
+                            across any cloud. Use open, transparent technology. And employ governance and security
+                            controls for easier compliance.
+                        </p>
+                        <div class="mb-4">
+                            <span
+                                class="inline-block bg-rose-600 text-rose-100 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">inference</span>
+                            <span
+                                class="inline-block bg-amber-500 text-amber-100 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">LLM</span>
+                            <span
+                                class="inline-block bg-indigo-600 text-indigo-100 text-xs font-semibold px-2.5 py-0.5 rounded-full">Python</span>
+                        </div>
+                        <a href="https://www.ibm.com/watsonx"
+                            class="btn-secondary font-medium py-2 px-5 rounded-lg text-sm inline-block hover:shadow-md">Explore
+                            more</a>
+                    </div>
+                </div>
+
+                <div class="project-card bg-slate-800 rounded-xl shadow-xl overflow-hidden">
+                    <img src="https://www.jotform.com/blog/wp-content/uploads/2020/05/work-from-home-featured-02.png"
+                        alt="Project 3" class="w-full h-56 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-semibold mb-3 text-indigo-400">Automatic mouse mover</h3>
+                        <p class="text-slate-300 mb-4">
+                            A minimalistic go library/app to keep your mac active and alive! The simplest app that has
+                            the sole purpose of moving your mouse pointer at regular intervals so that your machine is
+                            kept awake! And best of all, it works ONLY when you are not working, so be rest assured that
+                            the mouse won't start moving on its own without the machine actually being idle.
+                        </p>
+                        <div class="mb-4">
+                            <span
+                                class="inline-block bg-teal-600 text-teal-100 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">Golang</span>
+                            <span
+                                class="inline-block bg-pink-600 text-pink-100 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">WFH</span>
+                            <span
+                                class="inline-block bg-yellow-500 text-yellow-100 text-xs font-semibold px-2.5 py-0.5 rounded-full">Multi-threaded</span>
+                        </div>
+                        <a href="https://github.com/prashantgupta24/automatic-mouse-mover"
+                            class="font-medium py-2 px-5 rounded-lg text-sm inline-block bg-indigo-500 hover:bg-indigo-600 text-white transition-colors">See
+                            Project</a>
+                    </div>
+                </div>
             </div>
-            <div class="right grid about_text rg">
-				<p>
-					<h2>Skills and achievements</h2>
-					<ul>
-					<li><strong>Java, JSP, Servlets</strong></li>
-					<li><strong>Android Development</strong></li>
-					<li><strong>Docker, Ansible, Vagrant</strong></li>
-					<li><strong>Agile Methodology</strong></li>
-					<li><strong>Hibernate, AJAX, REST</strong></li>
-					<li><strong>Ruby On Rails</strong></li>
-					<li><strong>MySQL</strong></li>
-					</ul>
-				</p>
+        </div>
+    </section>
+
+    <section id="contact" class="py-16 md:py-24 bg-slate-800">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-6 section-title">Get In Touch</h2>
+            <p class="text-lg text-slate-300 mb-10 max-w-2xl mx-auto">
+                I'm always open to discussing new projects, creative ideas, or opportunities to be part of something
+                amazing. Feel free to reach out!
+            </p>
+            <a href="mailto:prashant@pgupta.com"
+                class="btn-primary font-semibold py-4 px-10 rounded-lg text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 inline-flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="w-6 h-6 mr-3">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                </svg>
+                Email Me
+            </a>
+            <div class="mt-12 flex justify-center space-x-6">
+                <a href="https://github.com/prashantgupta24" target="_blank" rel="noopener noreferrer"
+                    class="text-slate-400 hover:text-orange-400 transition-colors">
+                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path fill-rule="evenodd"
+                            d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.001 10.001 0 0022 12.017C22 6.484 17.522 2 12 2z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    <span class="sr-only">GitHub</span>
+                </a>
+                <a href="https://www.linkedin.com/in/prashantgupta24/" target="_blank" rel="noopener noreferrer"
+                    class="text-slate-400 hover:text-orange-400 transition-colors">
+                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path fill-rule="evenodd"
+                            d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    <span class="sr-only">LinkedIn</span>
+                </a>
             </div>
-			<div class="clear"></div>
-		</div><!-- end div #about -->
+        </div>
+    </section>
 
-        <div class="clear"></div>
+    <footer class="bg-slate-950 text-slate-400 py-8 text-center">
+        <div class="container mx-auto px-6">
+            <p>&copy; <span id="currentYear"></span> Prashant Gupta. All rights reserved.</p>
+            <p class="text-sm mt-1">Designed with <span class="text-red-500">&hearts;</span> using Tailwind CSS.</p>
+        </div>
+    </footer>
 
-<!------------------------- WORK -->
+    <script>
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
 
-        <div id="work">
-            <h2>Work.</h2>
-            <div class="projectsContainer">
-                <div id="project" class="item_details">
-                    <div class="slide_inner"></div>
-                	<div class="next_slide">&nbsp;</div>
-                    <div class="prev_slide">&nbsp;</div>
-<!-- WORK 1 -->
-                    <div class="prjinfo" id="iit_1">
-                        <div class="item_slider">
-                            <ul>
-                                <li class="iit_1 pic selected"><img src="images/projects/ibm_1.jpeg" alt="2+ Years" /></li>
-                                <li class="iit_1 pic"><img src="images/projects/ibm_2.gif" alt="My Work 1" /></li>
-                            </ul> 
-                        </div>
-                        <div class="item_text">
-                            <h3>IBM Middleware Intern</h3>
-                            <div class="clear"></div>
-                            <div class="clear"></div>
-                            <p>Worked as an Emerging Technology Institute Intern, on middleware technologies.</p>
-							
-                            <h4>My Contributions:</h4>
-                            <ul>
-                                <li>Worked with Docker containers and IBM Container Service along with IBM DevOps Service Pipeline.</li>
-								<li>Helped deploy a Traditional IBM Websphere App (Daytrader) onto Bluemix (IBM's cloud initiative).</li>
-                                <li>Published a YouTube video (link below) demonstrating the effectiveness of IBM's Websphere to Cloud Migration toolkits.</li>
-                            </ul>
-                            <h5>Years: <span>June 2015 - Present</span></h5>
-                            <h5>Technologies: <span>Docker, DevOps Pipeline, Websphere, Bluemix, Camtasia</span></h5>
-                            <a href="https://www.youtube.com/watch?v=QBAD1oO0KgI" title="My Work" target="_blank" class="btn_see_it_live">YouTube video - Code and Config Changes for Moving to IBM Bluemix</a>
-                            <div class="close_item_info">&nbsp;</div>
-                        </div>
-                    </div><!-- end div #iit_1 -->
-<!-- WORK 2 -->
-                    <div class="prjinfo" id="iit_2">
-                        <div class="item_slider">
-                            <ul>
-                                <li class="iit_2 pic selected"><img src="images/projects/slide_w1_1.jpg" alt="2+ Years" /></li>
-                                <li class="iit_2 pic"><img src="images/projects/slide_w1_2.jpg" alt="My Work 1" /></li>
-                                <li class="iit_2 pic"><img src="images/projects/slide_w1_3.jpg" alt="My Work 1" /></li>
-                            </ul> 
-                        </div>
-                        <div class="item_text">
-                            <h3>Software Engineer</h3>
-                            <div class="clear"></div>
-                            <div class="clear"></div>
-                            <p>Worked primarily on a Java based Honeywell proprietary framework called Niagara for over 2 years.</p>
-							
-                            <h4>My Contributions:</h4>
-                            <ul>
-                                <li>Designing and developing core components for Opus, a project based on Niagara.</li>
-                                <li>Designing and developing new components for a web based project which required the use of technologies like HTML5, CSS and javascript, for a period of six months.</li>
-                                <li>Estimating, designing and developing user stories given by the product owner following the Agile methodology.</li>
-								<li>Key contributor in a Patent currently filed under the US patents office, called Multisite Version and Upgrade Management System.</li>
-                            </ul>
-                            <h5>Years: <span>August 2011 - June 2014</span></h5>
-                            <h5>Patent: <span>Multisite Version and Upgrade Management System - United States HW0041091</span></h5>
-                            <a href="http://www.niagaraax.com/" title="My Work 1" target="_blank" class="btn_see_it_live">What's Niagara all about</a>
-                            <div class="close_item_info">&nbsp;</div>
-                        </div>
-                    </div><!-- end div #iit_1 -->
-<!-- WORK 3 -->
-                    <div class="prjinfo" id="iit_3">
-                        <div class="item_slider">
-                            <ul>
-                                <li class="iit_3 pic selected"><img src="images/projects/slide_w2_1.jpg" alt="My Work 2" /></li>
-                                <li class="iit_3 pic"><img src="images/projects/slide_w1_1.jpg" alt="My Work 2" /></li>
-                            </ul> 
-                        </div>
-                        <div class="item_text">
-                            <h3>Software Intern</h3>
-                            <div class="clear"></div>
-                            <h4>Overview:</h4>
-                            <div class="clear"></div>
-                            <p>Fully responsible for developing a core Java software capable of converting a Microsoft access database file(.mdb) into an XML file containing the same device information.
-                            </p>
-                            <h4>My Contribution:</h4>
-                            <ul>
-                                <li>Analyzed DOM and SAX parsing techniques.</li>
-                            </ul>
-                            <h5>Time: <span>January 2011 - June 2011</span></h5>
-                            <div class="close_item_info">&nbsp;</div>
-                            
-                        </div>
-                    </div><!-- end div #iit_2 -->
-			</div><!-- end div #project -->
-<!-- WORKS GRID -->
+        // Set current year in footer
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-            	<div class="prjGrid">
-				<div id="it_1" class="item" >
-                    	<img src="images/projects/ibm3d.gif" alt="My Work 1" />
-                        <span class="hover">
-                        	<span class='h3'>IBM Middleware Intern</span>
-                        </span>
-                    </div>
-                	<div id="it_2" class="item" >
-                    	<img src="images/projects/thumb_w1.jpg" alt="My Work 2" />
-                        <span class="hover">
-                        	<span class='h3'>Software Engineer</span>
-                        </span>
-                    </div>
-                    <div id="it_3" class="item">
-                    	<img src="images/projects/thumb_w2.jpg" alt="My Work 3" />
-                        <span class="hover">
-                            <span class='h3'>Software Intern</span>
-                        </span>
-                    </div>
-               
-                </div><!-- end div .prjGrid -->
-				
-            </div><!-- end div .projectsContainer -->
-          <div class="clear"></div>  
-        </div><!-- end div #work -->
-        <div class="clear"></div>
-        
-<!------------------------- PROJECTS -->
-        
-        <div id="projects">
-            <h2>Projects.</h2>
-            <div class="projectsContainer">
-<!-- PROJECT 1 -->
-                <div class="pprj">
-                    <div class="grid left">
-                        <div class="item">
-                            <img src="images/projects/thumb_p11.jpg" alt="Ring-Message" />
-                            <a class="hover" href="https://play.google.com/store/apps/details?id=myapp.prashant.ring_message&hl=en" title="Play store" target="_blank"><span class='h3'>Google play store</span></a>
-                        </div>    
-                    </div>
-                    <div class="item_text">
-                        <h3>Ring-Message Android App</h3>
-                            <div class="clear"></div>
-                            <h4>Key points:</h4>
-                            <ul>
-                                <li>Select a contact, save a message</li>
-                                <li>When they call, you see that message!</li>
-                                <li>Have a message for each contact saved</li>
-                            </ul>
-							<a href="https://play.google.com/store/apps/details?id=myapp.prashant.ring_message&hl=en" title="app" target="_blank" class="btn_see_it_live">Take me to the app!</a>
-                    </div>
-                    <div class="item_cust second">
-                        <h4>Overview:</h4>
-                            <div class="clear"></div>
-                            <p>
-							  <ul>
-                                <li>A simple app, which lets you select a contact, and save a message for them.</li>
-                                <li>Whenever they call you, or  you call them, the message appears on your phone screen, serving as a reminder.</li>
-                                <li>To delete a message, just select the same contact and press, 'Delete message'.</li>
-                                <li>Currently supporting all android versions above 4.1.</li>
-                            </ul>
-                            </p>
-                            <h5>Year: <span>2015</span></h5>
-                    </div>
-                </div><!-- end div .pprj -->
-<!-- PROJECT 2 -->
-                <div class="pprj">
-                    <div class="grid left">
-                        <div class="item">
-                            <img src="images/projects/thumb_p1.jpg" alt="Gradiance" />
-                            <a class="hover" href="https://github.com/prashantgupta24/Gradiance" title="Gradiance" target="_blank"><span class='h3'>GitHub</span></a>
-                        </div>    
-                    </div>
-                    <div class="item_text">
-                        <h3>Gradiance Tool</h3>
-                            <div class="clear"></div>
-                            <h4>Technologies used:</h4>
-                            <ul>
-                                <li>JDBC</li>
-                                <li>Oracle 11g</li>
-                                <li>SQL queries</li>
-                                <li>PBKFD2</li>
-                            </ul>
-							<a href="https://crackstation.net/hashing-security.htm" title="PBKFD2" target="_blank" class="btn_see_it_live">What's PBKFD2?</a>
-                    </div>
-                    <div class="item_cust second">
-                        <h4>Overview:</h4>
-                            <div class="clear"></div>
-                            <p>
-							  <ul>
-                                <li>Developed a site similar to www.newgradiance.com, which is an automated online accelerated learning tool</li>
-                                <li>Extensive use of Oracle, JDBC and SQL concepts.</li>
-                                <li>Used PBKFD2 for hashing while saving passwords for enhanced authentication</li>
-                                <li>Unique options given to students on each retry, hence removing the idea of remembering the correct option.</li>
-                                <li>Also giving freedom to the professor in setting up the questions, the level of difficulty, and also the topic from which to give.</li>
-                                <li>Students also have the option to see past submissions</li>
-                            </ul>
-                            </p>
-                            <h5>Year: <span>2014</span></h5>
-                    </div>
-                </div><!-- end div .pprj -->
-<!-- PROJECT 3 -->
-                <div class="pprj">
-                    <div class="grid left">
-                        <div class="item">
-                            <img src="images/projects/thumb_p2.jpg" alt="Simple DB" />
-                            <a class="hover" href="http://www.cs.bc.edu/~sciore/simpledb/" title="SimpleDB" target="_blank"><span class='h3'>Simple DB</span></a>
-                        </div>    
-                    </div>
-                    <div class="item_text">
-                        <h3>Simple DB</h3>
-                            <div class="clear"></div>
-                            <h4>Concepts:</h4>
-                            <ul>
-                                <li>Buffers, Blocks and Pages</li>
-                                <li>GClock policy</li>
-                                <li>Implemented Buffer Manager</li>
-                                <li>Concurrent HashMaps for synchronized access</li>
-                                <li>Implemented basic ARIES Recovery management</li>
-                            </ul>
-                            <a href="http://en.wikipedia.org/wiki/Algorithms_for_Recovery_and_Isolation_Exploiting_Semantics" title="ARIES" target="_blank" class="btn_see_it_live">What's ARIES?</a>
-                    </div>
-                    <div class="item_cust second">
-                        <h4>Overview:</h4>
-                            <div class="clear"></div>
-                            <p>SimpleDB is a multi-user transactional database server written in Java, which interacts with Java client programs via JDBC.
-							Some of the things implemented were: 
-							<ul>
-                                <li>The G-Clock replacement policy - an extension of the Clock policy.</li>
-								<li>Kept a Map of allocated buffers, keyed on the block they contained.</li>
-								<li>Revised SimpleDB so that it used blocks as the elements of recovery.</li>
-                                <li>Extensive use of Oracle, JDBC and SQL concepts.</li>
-                            </ul>
-                            </p>
-                            <h5>Year: <span>2014</span></h5>
-                    </div>
-                </div><!-- end div .pprj -->
-<!-- PROJECT 4 -->
-                <div class="pprj">
-                    <div class="grid left">
-                        <div class="item">
-                            <img src="images/projects/thumb_p3.jpg" alt="Mouse Mover App" />
-                            <a class="hover" href="https://github.com/prashantgupta24/Mouse-Mover-app" title="Mouse mover" target="_blank"><span class='h3'>GitHub</span></a>
-                        </div>    
-                    </div>
-                    <div class="item_text">
-                        <h3>Mouse Mover App</h3>
-                            <div class="clear"></div>
-                            <h4>Concepts:</h4>
-                            <ul>
-                                <li>Multi-Threading environment</li>
-								<li>Extensive use of threading concepts like join</li>
-                                <li>Java Swings for UI design </li>
-                                <li>Robot class</li>
-                            </ul>
-                            <a href="http://docs.oracle.com/javase/7/docs/api/java/awt/Robot.html" title="Robot" target="_blank" class="btn_see_it_live">What's Robot?</a>
-                    </div>
-                    <div class="item_cust second">
-                        <h4>Overview:</h4>
-                            <div class="clear"></div>
-                            <p>Mouse Mover app is a simple yet highly useful app in Java using multi-threading which moves the mouse pointer after a fixed interval, thus keeping the computer active without human effort. Another thread checks when computer has been left idle, then executes the mouse mover thread.
-							Some of the things implemented were: 
-							<ul>
-                                <li>Idle time checking - One thread checks whether computer is left idle or not.</li>
-								<li>Mouse movement after specific time.</li>
-                            </ul>
-                            </p>
-                            <h5>Year: <span>2012</span></h5>
-                    </div>
-                </div><!-- end div .pprj -->
-            </div><!-- end div .projectsContainer -->
-            <div class="clear"></div>
-        </div><!-- end div #projects -->
+        // Simple scroll animation for project cards (optional, can be enhanced)
+        const projectCards = document.querySelectorAll('.project-card');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('opacity-100', 'transform', 'translate-y-0', 'transition-all', 'duration-700', 'ease-out');
+                    entry.target.classList.remove('opacity-0', 'translate-y-10');
+                }
+            });
+        }, { threshold: 0.1 });
 
-        <div class="clear"></div>
-<!------------------------- CONTACT -->
-        <div id="contact1" >
-            <h2>More Info</h2>
-            <div class="clear"></div>
-            <div class="contactContainer contact_social">
-				   <h3>My Coding Profile:</h3>
-					<a href="http://www.coderbyte.com/CodingArea/Profile/?user=prashantgupta24" class="coderbyte" target="_blank"></a>CoderByte Challenges
-					<div class="clear"></div>
-					<a href="https://github.com/prashantgupta24" class="github" target="_blank"></a>Github Link
-					<div class="clear"></div>
-					<a href="http://www.codeeval.com/profile/prashantgupta24/" class="codeeval" target="_blank"></a>CodeEval Challenges (Just started)
-					<div class="clear"></div>
-            </div><!-- end div .contactContainer -->
-            <div class="contact_social gridCust">
-			 <h3>More about me!</h3>
-				<a href="mailto:prashant@pgupta.com" class="email" target="_blank"></a>Email me!
-                <div class="clear"></div>
-                <a href="http://www.facebook.com/prashantgupta24" class="facebook" target="_blank"></a>Check out my Facebook page!
-                <div class="clear"></div>
-                <a href="https://www.linkedin.com/in/prashantgupta24" class="linkedin" target="_blank"></a>Check out my LinkedIn page!
-                <div class="clear"></div>
-            </div><!-- end div .contact_social -->
-            <div class="clear"></div>
-           <div id="btn_top"></div> 
-        </div><!-- end div #contact -->
-    </div><!-- end div #container -->
-</div><!-- end div #wrapper -->
-
-<script type='text/javascript'>
-    QueryLoader.init();
-</script>
+        projectCards.forEach(card => {
+            card.classList.add('opacity-0', 'translate-y-10'); // Initial state for animation
+            observer.observe(card);
+        });
+    </script>
 
 </body>
+
 </html>
