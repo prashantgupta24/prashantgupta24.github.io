@@ -18,11 +18,15 @@
             background: linear-gradient(135deg, #6EE7B7 0%, #3B82F6 100%);
         }
 
-        .project-card {
+        .project-card,
+        .repo-card {
             transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+            display: flex;
+            flex-direction: column;
         }
 
-        .project-card:hover {
+        .project-card:hover,
+        .repo-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
@@ -129,6 +133,164 @@
         #menu-icon.open span:nth-child(3) {
             transform: rotate(-45deg) translate(5px, -5px);
         }
+
+        .github-section-bg {
+            background-color: #1e293b;
+        }
+
+        .github-stat-card {
+            background-color: #334155;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid #475569;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .github-stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px -2px rgba(0, 0, 0, 0.15);
+        }
+
+        .github-stat-card p {
+            margin-bottom: 0.25rem;
+            color: #cbd5e1;
+        }
+
+        .github-stat-card .stat-number {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: #6EE7B7;
+            line-height: 1.2;
+        }
+
+        .github-stat-card .stat-label {
+            font-size: 0.875rem;
+            color: #94a3b8;
+        }
+
+        .repo-card {
+            background-color: #334155;
+            border-radius: 0.75rem;
+            padding: 1.25rem;
+            border: 1px solid #475569;
+        }
+
+        .repo-card .repo-name {
+            color: #60A5FA;
+            font-weight: 600;
+            font-size: 1.125rem;
+            margin-bottom: 0.5rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .repo-card .repo-description {
+            color: #cbd5e1;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+            flex-grow: 1;
+            min-height: 4.5em;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .repo-card .repo-meta {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+
+        .repo-card .repo-meta span {
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .repo-card .repo-meta svg {
+            width: 0.875rem;
+            height: 0.875rem;
+            margin-right: 0.25rem;
+            fill: currentColor;
+        }
+
+        .repo-card .repo-language-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #94a3b8;
+            margin-right: 4px;
+            display: inline-block;
+        }
+
+        .lang-python {
+            background-color: #3572A5;
+        }
+
+        .lang-javascript {
+            background-color: #f1e05a;
+        }
+
+        .lang-go {
+            background-color: #00ADD8;
+        }
+
+        .lang-java {
+            background-color: #b07219;
+        }
+
+        .lang-html {
+            background-color: #e34c26;
+        }
+
+        .lang-css {
+            background-color: #563d7c;
+        }
+
+        .lang-jupyter-notebook {
+            background-color: #DA5B0B;
+        }
+
+        .lang-shell {
+            background-color: #89e051;
+        }
+
+        .lang-cplusplus {
+            background-color: #f34b7d;
+        }
+
+        /* C++ */
+        .lang-c {
+            background-color: #555555;
+        }
+
+        .lang-typescript {
+            background-color: #2b7489;
+        }
+
+        .lang-php {
+            background-color: #4F5D95;
+        }
+
+        .lang-ruby {
+            background-color: #701516;
+        }
+
+        .lang-swift {
+            background-color: #ffac45;
+        }
+
+        .lang-kotlin {
+            background-color: #A97BFF;
+        }
     </style>
 </head>
 
@@ -140,6 +302,7 @@
             <div class="hidden md:flex space-x-6">
                 <a href="#about" class="nav-link text-slate-200">About</a>
                 <a href="#projects" class="nav-link text-slate-200">Projects</a>
+                <a href="#github" class="nav-link text-slate-200">GitHub</a>
                 <a href="#contact" class="nav-link text-slate-200">Contact</a>
             </div>
             <div class="md:hidden">
@@ -153,6 +316,7 @@
         <div id="mobile-menu" class="md:hidden hidden bg-slate-800">
             <a href="#about" class="block nav-link text-slate-200 px-4 py-3 hover:bg-slate-700">About</a>
             <a href="#projects" class="block nav-link text-slate-200 px-4 py-3 hover:bg-slate-700">Projects</a>
+            <a href="#github" class="block nav-link text-slate-200 px-4 py-3 hover:bg-slate-700">GitHub</a>
             <a href="#contact" class="block nav-link text-slate-200 px-4 py-3 hover:bg-slate-700">Contact</a>
         </div>
     </nav>
@@ -167,7 +331,7 @@
                 to my personal space on the web!
             </p>
             <a href="#projects"
-                class="btn-primary font-semibold py-2 px-6 sm:py-3 sm:px-8 rounded-lg text-base sm:text-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-300">
+                class="btn-primary font-semibold py-2 px-6 sm:py-3 sm:px-8 rounded-lg text-base sm:text-lg shadow-md">
                 View My Work
             </a>
         </div>
@@ -192,7 +356,7 @@
                         learn new things and take on challenging projects.
                     </p>
                     <a href="#contact"
-                        class="inline-block mt-6 btn-secondary font-semibold py-2 px-5 sm:py-3 sm:px-6 rounded-lg text-sm sm:text-md shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-300">
+                        class="inline-block mt-6 btn-secondary font-semibold py-2 px-5 sm:py-3 sm:px-6 rounded-lg text-sm sm:text-md shadow-md">
                         Get In Touch
                     </a>
                 </div>
@@ -210,7 +374,7 @@
             <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-10 md:mb-16 section-title">My Projects
             </h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
-                <div class="project-card bg-slate-800 rounded-xl shadow-xl overflow-hidden flex flex-col">
+                <div class="project-card bg-slate-800 rounded-xl shadow-xl overflow-hidden">
                     <img src="https://research.ibm.com/_next/image?url=https%3A%2F%2Fresearch-website-prod-cms-uploads.s3.us.cloud-object-storage.appdomain.cloud%2FIBM_Research_AIU_Chip_3_b2c4338886.jpg&w=1080&q=75"
                         alt="Project 1" class="w-full h-48 sm:h-56 object-cover">
                     <div class="p-5 sm:p-6 flex flex-col flex-grow">
@@ -228,17 +392,17 @@
                                 class="inline-block bg-purple-600 text-purple-100 text-xs font-semibold mb-1 px-2.5 py-0.5 rounded-full">Python</span>
                         </div>
                         <div class="flex flex-col sm:flex-row sm:space-x-3 space-y-2 sm:space-y-0 mt-auto">
-                            <a href="https://github.com/vllm-project/vllm-spyre"
-                                class="btn-primary w-full sm:w-auto text-center font-medium py-2 px-4 rounded-lg text-xs sm:text-sm inline-block hover:shadow-md">View
+                            <a href="https://github.com/vllm-project/vllm-spyre" target="_blank"
+                                rel="noopener noreferrer"
+                                class="btn-primary w-full sm:w-auto text-center font-medium py-2 px-4 rounded-lg text-xs sm:text-sm inline-block">View
                                 Project</a>
-                            <a href="https://docs.vllm.ai/en/latest/"
-                                class="btn-tertiary w-full sm:w-auto text-center font-medium py-2 px-4 rounded-lg text-xs sm:text-sm inline-block hover:shadow-md">What's
+                            <a href="https://docs.vllm.ai/en/latest/" target="_blank" rel="noopener noreferrer"
+                                class="btn-tertiary w-full sm:w-auto text-center font-medium py-2 px-4 rounded-lg text-xs sm:text-sm inline-block">What's
                                 vLLM?</a>
                         </div>
                     </div>
                 </div>
-
-                <div class="project-card bg-slate-800 rounded-xl shadow-xl overflow-hidden flex flex-col">
+                <div class="project-card bg-slate-800 rounded-xl shadow-xl overflow-hidden">
                     <img src="https://d7umqicpi7263.cloudfront.net/img/product/4818ab01-f670-4114-9e6c-8628797ffd08.jpg"
                         alt="Project 2" class="w-full h-48 sm:h-56 object-cover">
                     <div class="p-5 sm:p-6 flex flex-col flex-grow">
@@ -256,14 +420,13 @@
                                 class="inline-block bg-indigo-600 text-indigo-100 text-xs font-semibold mb-1 px-2.5 py-0.5 rounded-full">Python</span>
                         </div>
                         <div class="mt-auto">
-                            <a href="https://www.ibm.com/watsonx"
-                                class="btn-secondary w-full sm:w-auto text-center font-medium py-2 px-4 rounded-lg text-xs sm:text-sm inline-block hover:shadow-md">Explore
+                            <a href="https://www.ibm.com/watsonx" target="_blank" rel="noopener noreferrer"
+                                class="btn-secondary w-full sm:w-auto text-center font-medium py-2 px-4 rounded-lg text-xs sm:text-sm inline-block">Explore
                                 more</a>
                         </div>
                     </div>
                 </div>
-
-                <div class="project-card bg-slate-800 rounded-xl shadow-xl overflow-hidden flex flex-col">
+                <div class="project-card bg-slate-800 rounded-xl shadow-xl overflow-hidden">
                     <img src="https://www.jotform.com/blog/wp-content/uploads/2020/05/work-from-home-featured-02.png"
                         alt="Project 3" class="w-full h-48 sm:h-56 object-cover">
                     <div class="p-5 sm:p-6 flex flex-col flex-grow">
@@ -282,13 +445,43 @@
                                 class="inline-block bg-yellow-500 text-yellow-100 text-xs font-semibold mb-1 px-2.5 py-0.5 rounded-full">Multi-threaded</span>
                         </div>
                         <div class="mt-auto">
-                            <a href="https://github.com/prashantgupta24/automatic-mouse-mover"
+                            <a href="https://github.com/prashantgupta24/automatic-mouse-mover" target="_blank"
+                                rel="noopener noreferrer"
                                 class="font-medium py-2 px-4 rounded-lg text-xs sm:text-sm inline-block bg-indigo-500 hover:bg-indigo-600 text-white transition-colors w-full sm:w-auto text-center">See
                                 Project</a>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <section id="github" class="py-12 md:py-24 github-section-bg">
+        <div class="container mx-auto px-4 sm:px-6">
+            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-10 md:mb-16 section-title">My GitHub
+                Snapshot</h2>
+
+            <div id="github-loading" class="text-center text-slate-400 mb-8">Loading GitHub stats...</div>
+            <div id="github-error" class="text-center text-red-400 hidden mb-8">Could not load GitHub stats. Please try
+                again later.</div>
+
+            <div id="github-stats-container"
+                class="hidden grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 mb-10 md:mb-12 max-w-2xl mx-auto">
+            </div>
+
+            <h3 class="text-xl sm:text-2xl font-semibold mb-6 md:mb-8 text-center text-slate-100">Top Starred
+                Repositories</h3>
+            <div id="github-repos-container"
+                class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            </div>
+
+            <p class="mt-10 md:mt-12 text-center text-sm text-slate-400">
+                For a full overview of my activity, including commit history and contributions, please visit my
+                <a href="https://github.com/prashantgupta24?tab=repositories" target="_blank" rel="noopener noreferrer"
+                    class="text-orange-400 hover:underline">GitHub Repositories</a> and
+                <a href="https://github.com/prashantgupta24" target="_blank" rel="noopener noreferrer"
+                    class="text-orange-400 hover:underline">Profile Page</a>.
+            </p>
         </div>
     </section>
 
@@ -300,7 +493,7 @@
                 amazing. Feel free to reach out!
             </p>
             <a href="mailto:prashant@pgupta.com"
-                class="btn-primary font-semibold py-3 px-6 sm:py-4 sm:px-10 rounded-lg text-base sm:text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 inline-flex items-center">
+                class="btn-primary font-semibold py-3 px-6 sm:py-4 sm:px-10 rounded-lg text-base sm:text-lg shadow-lg inline-flex items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="w-5 h-5 sm:w-6 sm:h-6 mr-2 sm:mr-3">
                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -340,40 +533,267 @@
     </footer>
 
     <script>
-        // Mobile menu toggle
+        // --- START CONSTANTS AND DOM ELEMENTS ---
+        const GITHUB_USERNAME = 'prashantgupta24';
+        const GITHUB_API_USER_URL = `https://api.github.com/users/${GITHUB_USERNAME}`;
+        // Base URL for fetching all repos (for star count and top starred) - pagination will be handled
+        const GITHUB_API_ALL_REPOS_BASE_URL = `https://api.github.com/users/${GITHUB_USERNAME}/repos?per_page=100`;
+
+        const CACHE_EXPIRY_MS = 24 * 60 * 60 * 1000; // 24 hours
+
         const menuIcon = document.getElementById('menu-icon');
         const mobileMenu = document.getElementById('mobile-menu');
-        const navLinks = mobileMenu.querySelectorAll('a');
+        const navLinksMobile = mobileMenu.querySelectorAll('a');
+        const currentYearEl = document.getElementById('currentYear');
 
+        const githubLoadingEl = document.getElementById('github-loading');
+        const githubErrorEl = document.getElementById('github-error');
+        const githubStatsContainerEl = document.getElementById('github-stats-container');
+        const githubReposContainerEl = document.getElementById('github-repos-container');
+        // --- END CONSTANTS AND DOM ELEMENTS ---
+
+        // --- START UI HELPERS ---
+        function getLanguageColorClass(language) {
+            if (!language) return '';
+            const sanitizedLanguage = language.toLowerCase()
+                .replace(/\+/g, 'plus')
+                .replace(/#/g, 'sharp')
+                .replace(/\s+/g, '-')
+                .replace(/[^a-z0-9-]/g, '');
+            return `lang-${sanitizedLanguage}`;
+        }
+
+        function displayLoadingState(isLoading) {
+            if (isLoading) {
+                githubLoadingEl.classList.remove('hidden');
+                githubErrorEl.classList.add('hidden');
+                githubStatsContainerEl.classList.add('hidden');
+                githubReposContainerEl.classList.add('hidden');
+            } else {
+                githubLoadingEl.classList.add('hidden');
+            }
+        }
+
+        function displayErrorState(errorMessage) {
+            githubErrorEl.textContent = `Error: ${errorMessage}. Could not load GitHub stats.`;
+            githubErrorEl.classList.remove('hidden');
+            githubStatsContainerEl.classList.add('hidden');
+            githubReposContainerEl.classList.add('hidden');
+        }
+
+        function displayGitHubStats(userData, totalStars) {
+            const starsToDisplay = (typeof totalStars === 'number' && !isNaN(totalStars)) ? totalStars : 'N/A';
+            githubStatsContainerEl.innerHTML = `
+                <div class="github-stat-card">
+                    <p class="stat-label">Total Stars (All Repos)</p>
+                    <p class="stat-number">${starsToDisplay}</p>
+                </div>
+                <div class="github-stat-card">
+                    <p class="stat-label">Public Repos</p>
+                    <p class="stat-number">${userData.public_repos !== undefined ? userData.public_repos : 'N/A'}</p>
+                </div>
+                <div class="github-stat-card">
+                    <p class="stat-label">Followers</p>
+                    <p class="stat-number">${userData.followers !== undefined ? userData.followers : 'N/A'}</p>
+                </div>
+            `;
+            githubStatsContainerEl.classList.remove('md:grid-cols-4'); // Ensure this is removed if previously set
+            githubStatsContainerEl.classList.add('sm:grid-cols-3'); // Ensure 3 columns on small screens and up
+            githubStatsContainerEl.classList.remove('hidden');
+        }
+
+        function displayGitHubRepos(reposData) { // Expects top 3 starred repos
+            githubReposContainerEl.innerHTML = '';
+            if (!reposData || reposData.length === 0) {
+                githubReposContainerEl.innerHTML = '<p class="text-slate-400 col-span-full text-center">No public repositories found or API limit reached.</p>';
+                githubReposContainerEl.classList.remove('hidden');
+                return;
+            }
+
+            reposData.forEach(repo => {
+                const languageColorClass = getLanguageColorClass(repo.language);
+                const repoCard = `
+                    <div class="repo-card">
+                        <a href="${repo.html_url}" target="_blank" rel="noopener noreferrer" class="block hover:no-underline">
+                            <h5 class="repo-name">${repo.name}</h5>
+                        </a>
+                        <p class="repo-description">
+                            ${repo.description ? repo.description : 'No description available.'}
+                        </p>
+                        <div class="repo-meta">
+                            <span>
+                                <svg viewBox="0 0 16 16" version="1.1" aria-hidden="true"><path fill-rule="evenodd" d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25zm0 2.445L6.615 5.5l-2.562.372 1.855 1.806-.438 2.55L8 8.917l2.23.916-.437-2.55 1.856-1.806-2.562-.372L8 2.695z"></path></svg>
+                                ${repo.stargazers_count || 0}
+                            </span>
+                            <span>
+                                ${repo.language ? `<span class="repo-language-dot ${languageColorClass}"></span>` : ''}
+                                ${repo.language || 'N/A'}
+                            </span>
+                            <span>Updated: ${new Date(repo.updated_at).toLocaleDateString()}</span>
+                        </div>
+                         <a href="${repo.html_url}" target="_blank" rel="noopener noreferrer" class="mt-4 inline-block btn-tertiary text-xs font-medium py-1.5 px-3 rounded-md text-center w-full sm:w-auto">View on GitHub</a>
+                    </div>
+                `;
+                githubReposContainerEl.innerHTML += repoCard;
+            });
+            githubReposContainerEl.classList.remove('hidden');
+
+            const newRepoCards = githubReposContainerEl.querySelectorAll('.repo-card');
+            newRepoCards.forEach(el => {
+                el.classList.add('opacity-0', 'translate-y-10', 'transition-all', 'duration-700', 'ease-out');
+                observer.observe(el);
+            });
+        }
+        // --- END UI HELPERS ---
+
+        // --- START CACHING LOGIC ---
+        function getCachedData(key) {
+            const cachedItem = localStorage.getItem(key);
+            if (!cachedItem) return null;
+            try {
+                const { data, timestamp } = JSON.parse(cachedItem);
+                if (Date.now() - timestamp < CACHE_EXPIRY_MS) {
+                    return data;
+                }
+                localStorage.removeItem(key);
+                return null;
+            } catch (error) {
+                console.error(`Error parsing cached data for ${key}:`, error);
+                localStorage.removeItem(key);
+                return null;
+            }
+        }
+
+        function setCachedData(key, data) {
+            const itemToCache = { data, timestamp: Date.now() };
+            try {
+                localStorage.setItem(key, JSON.stringify(itemToCache));
+            } catch (error) {
+                console.error(`Error setting cache for ${key}:`, error);
+            }
+        }
+        // --- END CACHING LOGIC ---
+
+        // --- START GITHUB API FETCHING ---
+        async function fetchAllUserReposAndStars(username) {
+            let allFetchedRepos = [];
+            let page = 1;
+            let fetchMore = true;
+            let calculatedTotalStars = 0;
+
+            console.log("Fetching all user repos for total star count and top starred list...");
+
+            while (fetchMore) {
+                try {
+                    const response = await fetch(`${GITHUB_API_ALL_REPOS_BASE_URL}&page=${page}`);
+                    if (!response.ok) {
+                        console.error(`Failed to fetch page ${page} of repos: ${response.status} ${response.statusText}`);
+                        if (response.status === 403 || response.status === 429) {
+                            throw new Error(`GitHub API rate limit hit or forbidden while fetching all repos (page ${page}).`);
+                        }
+                        fetchMore = false;
+                        break;
+                    }
+                    const reposOnPage = await response.json();
+                    if (reposOnPage.length === 0) {
+                        fetchMore = false;
+                    } else {
+                        reposOnPage.forEach(repo => {
+                            calculatedTotalStars += repo.stargazers_count || 0;
+                        });
+                        allFetchedRepos = allFetchedRepos.concat(reposOnPage);
+                        page++;
+                    }
+                } catch (error) {
+                    console.error(`Error during fetching all repos (page ${page}):`, error);
+                    fetchMore = false;
+                    if (error.message.includes("rate limit")) throw error; // Re-throw critical errors
+                }
+            }
+            console.log(`Total stars from all ${allFetchedRepos.length} repos: ${calculatedTotalStars}`);
+            return { allRepos: allFetchedRepos, totalStars: calculatedTotalStars };
+        }
+
+        async function fetchFreshGitHubData() {
+            console.log("Fetching fresh GitHub data from API...");
+
+            const userResponse = await fetch(GITHUB_API_USER_URL);
+            if (!userResponse.ok) throw new Error(`GitHub user API request failed: ${userResponse.status} ${userResponse.statusText}`);
+            const userData = await userResponse.json();
+
+            const { allRepos: allFetchedRepos, totalStars: totalStarsAllRepos } = await fetchAllUserReposAndStars(GITHUB_USERNAME);
+
+            const sortedRepos = [...allFetchedRepos].sort((a, b) => (b.stargazers_count || 0) - (a.stargazers_count || 0));
+            const topStarredReposData = sortedRepos.slice(0, 3);
+
+            setCachedData('githubUser', userData);
+            setCachedData('githubTopStarredRepos', topStarredReposData); // Cache only the top 3
+            setCachedData('githubTotalStarsAll', totalStarsAllRepos);
+
+            return { userData, topStarredReposData, totalStarsAllRepos };
+        }
+
+        async function manageGitHubData() {
+            displayLoadingState(true);
+
+            const cachedUser = getCachedData('githubUser');
+            const cachedTopStarredRepos = getCachedData('githubTopStarredRepos'); // This will be the processed top 3
+            const cachedTotalStars = getCachedData('githubTotalStarsAll');
+
+            if (cachedUser && cachedTopStarredRepos && cachedTotalStars !== null) {
+                console.log("Using cached GitHub data (including total stars and processed top 3 repos).");
+                displayGitHubStats(cachedUser, cachedTotalStars);
+                displayGitHubRepos(cachedTopStarredRepos); // Display cached top 3
+                displayLoadingState(false);
+            } else {
+                console.log("Cache miss or expired. Fetching fresh data.");
+                try {
+                    const { userData, topStarredReposData, totalStarsAllRepos } = await fetchFreshGitHubData();
+                    displayGitHubStats(userData, totalStarsAllRepos);
+                    displayGitHubRepos(topStarredReposData); // Display freshly processed top 3
+                } catch (err) {
+                    console.error('GitHub API Error during fresh fetch:', err);
+                    if (cachedUser && cachedTopStarredRepos) { // Fallback if fresh fetch failed but some cache exists
+                        console.warn("Failed to fetch all fresh data, attempting to display from partial cache.");
+                        const fallbackStars = cachedTotalStars !== null ? cachedTotalStars :
+                            (cachedTopStarredRepos.reduce((sum, repo) => sum + (repo.stargazers_count || 0), 0) || 'N/A');
+                        displayGitHubStats(cachedUser, fallbackStars);
+                        displayGitHubRepos(cachedTopStarredRepos);
+                    } else {
+                        displayErrorState(err.message);
+                    }
+                } finally {
+                    displayLoadingState(false);
+                }
+            }
+        }
+        // --- END GITHUB API FETCHING ---
+
+        // --- START INITIALIZATION AND EVENT LISTENERS ---
         menuIcon.addEventListener('click', () => {
             mobileMenu.classList.toggle('hidden');
             menuIcon.classList.toggle('open');
         });
 
-        // Close mobile menu when a link is clicked
-        navLinks.forEach(link => {
+        navLinksMobile.forEach(link => {
             link.addEventListener('click', () => {
                 mobileMenu.classList.add('hidden');
                 menuIcon.classList.remove('open');
             });
         });
 
-        // Smooth scroll for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const targetId = this.getAttribute('href');
-                // If it's a mobile menu link, ensure menu closes before scrolling
                 if (mobileMenu.contains(this) && !mobileMenu.classList.contains('hidden')) {
                     mobileMenu.classList.add('hidden');
                     menuIcon.classList.remove('open');
                 }
                 const targetElement = document.querySelector(targetId);
                 if (targetElement) {
-                    // Account for fixed navbar height
                     const navbarHeight = document.querySelector('nav').offsetHeight;
                     const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navbarHeight;
-
                     window.scrollTo({
                         top: targetPosition,
                         behavior: 'smooth'
@@ -382,17 +802,17 @@
             });
         });
 
-        // Set current year in footer
-        document.getElementById('currentYear').textContent = new Date().getFullYear();
+        if (currentYearEl) {
+            currentYearEl.textContent = new Date().getFullYear();
+        }
 
-        // Intersection Observer for scroll animations
-        const animatedElements = document.querySelectorAll('.project-card, #about .md\\:w-1\\/2 > p, #about .md\\:w-1\\/2 > a, #about .md\\:w-1\\/2 > img');
+        const animatedElements = document.querySelectorAll('.project-card, .repo-card, .github-stat-card, #about .md\\:w-1\\/2 > p, #about .md\\:w-1\\/2 > a, #about .md\\:w-1\\/2 > img');
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('opacity-100', 'transform', 'translate-y-0');
                     entry.target.classList.remove('opacity-0', 'translate-y-10');
-                    observer.unobserve(entry.target); // Optional: stop observing after animation
+                    observer.unobserve(entry.target);
                 }
             });
         }, { threshold: 0.1 });
@@ -401,6 +821,9 @@
             el.classList.add('opacity-0', 'translate-y-10', 'transition-all', 'duration-700', 'ease-out');
             observer.observe(el);
         });
+
+        document.addEventListener('DOMContentLoaded', manageGitHubData);
+        // --- END INITIALIZATION AND EVENT LISTENERS ---
     </script>
 
 </body>
