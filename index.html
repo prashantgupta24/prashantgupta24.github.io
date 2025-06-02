@@ -5,7 +5,8 @@
     <meta charset="UTF-T">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Personal Portfolio</title>
-    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/prashantgupta24/prashantgupta24.github.io/f0947630f3ad03bf271080d9bcc47fed6971a73f/favicon.ico">
+    <link rel="icon" type="image/png"
+        href="https://raw.githubusercontent.com/prashantgupta24/prashantgupta24.github.io/f0947630f3ad03bf271080d9bcc47fed6971a73f/favicon.ico">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -41,7 +42,6 @@
             position: relative;
             transition: color 0.3s ease;
             padding: 8px 0;
-            /* Added padding for better touch targets in mobile menu */
         }
 
         .nav-link::after {
@@ -53,7 +53,6 @@
             left: 50%;
             transform: translateX(-50%);
             background-color: #F97316;
-            /* Orange accent */
             transition: width 0.3s ease;
         }
 
@@ -63,61 +62,50 @@
 
         .nav-link:hover {
             color: #F97316;
-            /* Orange accent for hover text */
         }
 
-        /* Hide scrollbar for animation observer, but keep scroll functional */
         .hide-scrollbar::-webkit-scrollbar {
             display: none;
         }
 
         .hide-scrollbar {
             -ms-overflow-style: none;
-            /* IE and Edge */
             scrollbar-width: none;
-            /* Firefox */
         }
 
         .btn-primary {
             background-color: #F97316;
-            /* Orange */
             color: white;
             transition: background-color 0.3s ease, transform 0.2s ease;
         }
 
         .btn-primary:hover {
             background-color: #EA580C;
-            /* Darker Orange */
             transform: scale(1.05);
         }
 
         .btn-secondary {
             background-color: #10B981;
-            /* Green */
             color: white;
             transition: background-color 0.3s ease, transform 0.2s ease;
         }
 
         .btn-secondary:hover {
             background-color: #059669;
-            /* Darker Green */
             transform: scale(1.05);
         }
 
         .btn-tertiary {
             background-color: #3B82F6;
-            /* Blue */
             color: white;
             transition: background-color 0.3s ease, transform 0.2s ease;
         }
 
         .btn-tertiary:hover {
             background-color: #2563EB;
-            /* Darker Blue */
             transform: scale(1.05);
         }
 
-        /* Mobile menu icon transition */
         #menu-icon span {
             transition: all 0.3s ease-in-out;
         }
@@ -267,7 +255,6 @@
             background-color: #f34b7d;
         }
 
-        /* C++ */
         .lang-c {
             background-color: #555555;
         }
@@ -292,7 +279,6 @@
             background-color: #A97BFF;
         }
 
-        /* Animation utilities */
         .fade-in-up {
             opacity: 0;
             transform: translateY(20px);
@@ -324,73 +310,46 @@
             transition-delay: 0.5s !important;
         }
 
-        /* Skill bars */
         .skill-bar-container {
             background-color: #374151;
-            /* slate-700 */
             border-radius: 0.375rem;
-            /* rounded-md */
             overflow: hidden;
             height: 1.75rem;
-            /* h-7, increased height */
             margin-bottom: 0.75rem;
-            /* mb-3 */
             position: relative;
-            /* For text overlay */
         }
 
         .skill-bar-fill {
             background-color: #10B981;
-            /* emerald-500 */
             height: 100%;
             width: 0;
-            /* Initial width for animation */
             border-radius: 0.375rem;
-            /* rounded-md */
             transition: width 1s ease-in-out;
-            /* text-align: right; /* Not needed if text is absolute */
-            /* padding-right: 0.5rem; /* Not needed if text is absolute */
             box-sizing: border-box;
         }
 
         .skill-bar-text {
-            /* Skill name text */
             position: absolute;
             left: 0.75rem;
-            /* pl-3 */
             top: 0;
-            /* Align to top of container */
             line-height: 1.75rem;
-            /* Same as container height */
             color: white;
             font-size: 0.875rem;
-            /* text-sm */
             font-weight: 500;
-            /* font-medium */
             z-index: 10;
-            /* Ensure text is above fill */
         }
 
         .skill-bar-percentage {
-            /* Percentage text */
             position: absolute;
             right: 0.75rem;
-            /* pr-3 */
             top: 0;
-            /* Align to top of container */
             line-height: 1.75rem;
-            /* Same as container height */
             color: white;
             font-size: 0.875rem;
-            /* text-sm */
             font-weight: 500;
-            /* font-medium */
             z-index: 10;
-            /* Ensure text is above fill */
         }
 
-
-        /* Staggered animation for project card content */
         .project-card-content>* {
             opacity: 0;
             transform: translateY(10px);
@@ -406,26 +365,71 @@
             transition-delay: 0.1s;
         }
 
-        /* Title */
         .project-card.is-visible .project-card-content>*:nth-child(2) {
             transition-delay: 0.2s;
         }
 
-        /* Description */
+        /* Description paragraph */
         .project-card.is-visible .project-card-content>*:nth-child(3) {
+            transition-delay: 0.25s;
+        }
+
+        /* Read more button */
+        .project-card.is-visible .project-card-content>*:nth-child(4) {
             transition-delay: 0.3s;
         }
 
         /* Tags div */
-        .project-card.is-visible .project-card-content>*:nth-child(4) {
+        .project-card.is-visible .project-card-content>*:nth-child(5) {
             transition-delay: 0.4s;
         }
 
-        .project-card.is-visible .project-card-content>*:nth-child(5) {
+        /* Buttons div */
+        .project-card.is-visible .project-card-content>*:nth-child(6) {
             transition-delay: 0.5s;
         }
 
-        /* For new contributions div */
+        /* Contributions div */
+
+
+        /* Project Description Expand/Collapse */
+        .project-description-text {
+            overflow: hidden;
+            transition: max-height 0.4s ease-in-out;
+        }
+
+        .project-description-text.is-truncated {
+            max-height: 4.2em;
+            /* Approx 3 lines (1.4em line-height * 3) */
+            /* The following webkit properties are a common way to achieve line clamping with ellipsis */
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            text-overflow: ellipsis;
+        }
+
+        .read-more-btn {
+            background: none;
+            border: none;
+            color: #60A5FA;
+            /* sky-400 for consistency with links */
+            font-size: 0.875rem;
+            /* text-sm */
+            font-weight: 500;
+            /* font-medium */
+            padding: 0.25rem 0;
+            /* py-1 */
+            margin-top: 0.25rem;
+            /* mt-1 */
+            cursor: pointer;
+            text-align: left;
+        }
+
+        .read-more-btn:hover {
+            text-decoration: underline;
+            color: #3B82F6;
+            /* sky-500 */
+        }
     </style>
 </head>
 
@@ -482,9 +486,10 @@
             <div class="flex flex-col md:flex-row items-start gap-8 md:gap-16">
                 <div class="md:w-1/2 text-base sm:text-lg text-slate-300 space-y-4 fade-in-up">
                     <p>
-                        Hello! I'm Prashant Gupta, an AI engineer based in San Jose, California, focussed on Generative AI inference. 
+                        Hello! I'm Prashant Gupta, an AI engineer based in San Jose, California, focussed on Generative
+                        AI inference.
                         I specialize in deploying and optimizing large-scale LLMs and multimodal models in
-                        production environments. I am also passionate about bringing cutting-edge AI research into 
+                        production environments. I am also passionate about bringing cutting-edge AI research into
                         real-world applications with performance, safety, and usability in mind.
                     </p>
                     <p>
@@ -506,7 +511,8 @@
                     <div id="skills-container">
                         <div class="skill" data-skill-name="Python" data-skill-level="90"></div>
                         <div class="skill" data-skill-name="DevOps (Docker/Kubernetes)" data-skill-level="80"></div>
-                        <div class="skill" data-skill-name="LLM Inference, deployment and optimization" data-skill-level="70"></div>
+                        <div class="skill" data-skill-name="LLM Inference, deployment and optimization"
+                            data-skill-level="70"></div>
                         <div class="skill" data-skill-name="Pickleball :)" data-skill-level="65"></div>
                         <div class="skill" data-skill-name="Cloud" data-skill-level="60"></div>
                         <div class="skill" data-skill-name="Golang" data-skill-level="60"></div>
@@ -526,12 +532,16 @@
                         alt="Project 1" class="w-full h-48 sm:h-56 object-cover">
                     <div class="p-5 sm:p-6 flex flex-col flex-grow project-card-content">
                         <h3 class="text-xl sm:text-2xl font-semibold mb-2 sm:mb-3 text-orange-400">vLLM Spyre</h3>
-                        <p class="text-sm sm:text-base text-slate-300 mb-3 sm:mb-4 flex-grow">
+                        <p class="project-description-text text-sm sm:text-base text-slate-300 mb-1 flex-grow">
                             The vLLM Spyre plugin (vllm-spyre) is a dedicated backend extension that enables seamless
-                            integration of IBM Spyre Accelerator with vLLM...
+                            integration of IBM Spyre Accelerator with vLLM. It follows the architecture described in
+                            vLLM’s Plugin System, making it easy to integrate IBM’s advanced AI acceleration into
+                            existing vLLM workflows.
+                            My work focused on understanding the intricacies of inferencing optimizations and
+                            attention mechanisms within large language models to ensure efficient hardware utilization.
                         </p>
-                        <div class="mb-3 sm:mb-4">
-                            <span
+                        <button class="read-more-btn" aria-expanded="false">Read more</button>
+                        <div class="my-3 sm:my-4"> <span
                                 class="inline-block bg-sky-600 text-sky-100 text-xs font-semibold mr-2 mb-1 px-2.5 py-0.5 rounded-full">inference</span>
                             <span
                                 class="inline-block bg-emerald-600 text-emerald-100 text-xs font-semibold mr-2 mb-1 px-2.5 py-0.5 rounded-full">LLM</span>
@@ -560,11 +570,16 @@
                         alt="Project 2" class="w-full h-48 sm:h-56 object-cover">
                     <div class="p-5 sm:p-6 flex flex-col flex-grow project-card-content">
                         <h3 class="text-xl sm:text-2xl font-semibold mb-2 sm:mb-3 text-emerald-400">IBM watsonx</h3>
-                        <p class="text-sm sm:text-base text-slate-300 mb-3 sm:mb-4 flex-grow">
+                        <p class="project-description-text text-sm sm:text-base text-slate-300 mb-1 flex-grow">
                             IBM watsonx is a portfolio of AI products that accelerates the impact of generative AI in
-                            core workflows to drive productivity...
+                            core workflows to drive productivity.
+                            
+                            You can choose an open source foundation model, bring your own, or use existing models. And run it
+                            across any cloud. Use open, transparent technology. And employ governance and security
+                            controls for easier compliance. My work focused on the inference stack, ensuring models performed optimally at scale.
                         </p>
-                        <div class="mb-3 sm:mb-4">
+                        <button class="read-more-btn" aria-expanded="false">Read more</button>
+                        <div class="my-3 sm:my-4">
                             <span
                                 class="inline-block bg-rose-600 text-rose-100 text-xs font-semibold mr-2 mb-1 px-2.5 py-0.5 rounded-full">inference</span>
                             <span
@@ -585,17 +600,24 @@
                     <div class="p-5 sm:p-6 flex flex-col flex-grow project-card-content">
                         <h3 class="text-xl sm:text-2xl font-semibold mb-2 sm:mb-3 text-indigo-400">Automatic mouse mover
                         </h3>
-                        <p class="text-sm sm:text-base text-slate-300 mb-3 sm:mb-4 flex-grow">
+                        <p class="project-description-text text-sm sm:text-base text-slate-300 mb-1 flex-grow">
                             A minimalistic go library/app to keep your mac active and alive! The simplest app that has
-                            the sole purpose of moving your mouse pointer at regular intervals...
+                            the sole purpose of moving your mouse pointer at regular intervals so that your machine is
+                            kept awake!
+                            And best of all, it works ONLY when you are not working, so be rest assured that the mouse
+                            won't
+                            start moving on its own without the machine actually being idle. This was a fun weekend
+                            project
+                            to explore Multithreading with Go Routines in Golang.
                         </p>
-                        <div class="mb-3 sm:mb-4">
+                        <button class="read-more-btn" aria-expanded="false">Read more</button>
+                        <div class="my-3 sm:my-4">
                             <span
                                 class="inline-block bg-teal-600 text-teal-100 text-xs font-semibold mr-2 mb-1 px-2.5 py-0.5 rounded-full">Golang</span>
                             <span
-                                class="inline-block bg-pink-600 text-pink-100 text-xs font-semibold mr-2 mb-1 px-2.5 py-0.5 rounded-full">WFH</span>
+                                class="inline-block bg-pink-600 text-pink-100 text-xs font-semibold mr-2 mb-1 px-2.5 py-0.5 rounded-full">Goroutine</span>
                             <span
-                                class="inline-block bg-yellow-500 text-yellow-100 text-xs font-semibold mb-1 px-2.5 py-0.5 rounded-full">Multi-threaded</span>
+                                class="inline-block bg-yellow-500 text-yellow-100 text-xs font-semibold mb-1 px-2.5 py-0.5 rounded-full">Multithreading</span>
                         </div>
                         <div class="mt-auto">
                             <a href="https://github.com/prashantgupta24/automatic-mouse-mover" target="_blank"
@@ -725,7 +747,12 @@
                     // For skill bars and project cards, this is handled by the initial setup.
                     // For simple fade-in-up, unobserving is fine.
                     if (!entry.target.classList.contains('skill-bar-fill') && !entry.target.classList.contains('project-card')) {
-                        observer.unobserve(entry.target);
+                        // observer.unobserve(entry.target); // Keep observing project cards for re-animation if they leave/re-enter viewport
+                    }
+                } else {
+                    // Optional: Reset animation if element leaves viewport and you want it to re-animate
+                    if (entry.target.classList.contains('project-card')) {
+                        // entry.target.classList.remove('is-visible'); // Could cause re-triggering too often
                     }
                 }
             });
@@ -1033,6 +1060,38 @@
         }
         // --- END GITHUB API FETCHING ---
 
+        // --- START PROJECT DESCRIPTION TOGGLE ---
+        function initProjectDescriptionToggle() {
+            const projectCards = document.querySelectorAll('.project-card');
+            projectCards.forEach(card => {
+                const descriptionText = card.querySelector('.project-description-text');
+                const readMoreBtn = card.querySelector('.read-more-btn');
+
+                if (descriptionText && readMoreBtn) {
+                    // Check if text is actually overflowing to decide if button is needed
+                    // For simplicity, we'll always show it if the content might be long.
+                    // A more robust check would compare scrollHeight and clientHeight.
+                    descriptionText.classList.add('is-truncated'); // Start truncated
+
+                    readMoreBtn.addEventListener('click', () => {
+                        const isTruncated = descriptionText.classList.contains('is-truncated');
+                        if (isTruncated) {
+                            descriptionText.classList.remove('is-truncated');
+                            descriptionText.style.maxHeight = descriptionText.scrollHeight + 'px';
+                            readMoreBtn.textContent = 'Read less';
+                            readMoreBtn.setAttribute('aria-expanded', 'true');
+                        } else {
+                            descriptionText.classList.add('is-truncated');
+                            descriptionText.style.maxHeight = ''; // Revert to CSS defined max-height
+                            readMoreBtn.textContent = 'Read more';
+                            readMoreBtn.setAttribute('aria-expanded', 'false');
+                        }
+                    });
+                }
+            });
+        }
+        // --- END PROJECT DESCRIPTION TOGGLE ---
+
         // --- START INITIALIZATION AND EVENT LISTENERS ---
         function initHeroAnimations() {
             const elements = [
@@ -1096,6 +1155,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             initHeroAnimations();
             manageGitHubData();
+            initProjectDescriptionToggle(); // Initialize the read more toggle
         });
         // --- END INITIALIZATION AND EVENT LISTENERS ---
     </script>
