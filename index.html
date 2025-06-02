@@ -291,6 +291,137 @@
         .lang-kotlin {
             background-color: #A97BFF;
         }
+
+        /* Animation utilities */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .delay-100 {
+            transition-delay: 0.1s !important;
+        }
+
+        .delay-200 {
+            transition-delay: 0.2s !important;
+        }
+
+        .delay-300 {
+            transition-delay: 0.3s !important;
+        }
+
+        .delay-400 {
+            transition-delay: 0.4s !important;
+        }
+
+        .delay-500 {
+            transition-delay: 0.5s !important;
+        }
+
+        /* Skill bars */
+        .skill-bar-container {
+            background-color: #374151;
+            /* slate-700 */
+            border-radius: 0.375rem;
+            /* rounded-md */
+            overflow: hidden;
+            height: 1.75rem;
+            /* h-7, increased height */
+            margin-bottom: 0.75rem;
+            /* mb-3 */
+            position: relative;
+            /* For text overlay */
+        }
+
+        .skill-bar-fill {
+            background-color: #10B981;
+            /* emerald-500 */
+            height: 100%;
+            width: 0;
+            /* Initial width for animation */
+            border-radius: 0.375rem;
+            /* rounded-md */
+            transition: width 1s ease-in-out;
+            /* text-align: right; /* Not needed if text is absolute */
+            /* padding-right: 0.5rem; /* Not needed if text is absolute */
+            box-sizing: border-box;
+        }
+
+        .skill-bar-text {
+            /* Skill name text */
+            position: absolute;
+            left: 0.75rem;
+            /* pl-3 */
+            top: 0;
+            /* Align to top of container */
+            line-height: 1.75rem;
+            /* Same as container height */
+            color: white;
+            font-size: 0.875rem;
+            /* text-sm */
+            font-weight: 500;
+            /* font-medium */
+            z-index: 10;
+            /* Ensure text is above fill */
+        }
+
+        .skill-bar-percentage {
+            /* Percentage text */
+            position: absolute;
+            right: 0.75rem;
+            /* pr-3 */
+            top: 0;
+            /* Align to top of container */
+            line-height: 1.75rem;
+            /* Same as container height */
+            color: white;
+            font-size: 0.875rem;
+            /* text-sm */
+            font-weight: 500;
+            /* font-medium */
+            z-index: 10;
+            /* Ensure text is above fill */
+        }
+
+
+        /* Staggered animation for project card content */
+        .project-card-content>* {
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+        }
+
+        .project-card.is-visible .project-card-content>* {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .project-card.is-visible .project-card-content>*:nth-child(1) {
+            transition-delay: 0.1s;
+        }
+
+        /* Title */
+        .project-card.is-visible .project-card-content>*:nth-child(2) {
+            transition-delay: 0.2s;
+        }
+
+        /* Description */
+        .project-card.is-visible .project-card-content>*:nth-child(3) {
+            transition-delay: 0.3s;
+        }
+
+        /* Tags div */
+        .project-card.is-visible .project-card-content>*:nth-child(4) {
+            transition-delay: 0.4s;
+        }
+
+        /* Buttons div */
     </style>
 </head>
 
@@ -321,17 +452,21 @@
         </div>
     </nav>
 
-    <section id="home" class="hero-bg pt-20 pb-12 md:pt-32 md:pb-24 text-white">
+    <section id="home" class="hero-bg pt-20 pb-12 md:pt-32 md:pb-24 text-white overflow-hidden">
         <div class="container mx-auto px-4 sm:px-6 text-center">
-            <img src="https://avatars.githubusercontent.com/u/9909241?v=4" alt="Prashant Gupta"
-                class="w-28 h-28 sm:w-32 sm:h-32 md:w-40 md:h-40 mx-auto rounded-full mb-6 sm:mb-8 shadow-xl border-4 border-white">
-            <h1 class="text-3xl sm:text-4xl md:text-6xl font-bold mb-3 sm:mb-4">Hi, I'm Prashant Gupta!</h1>
-            <p class="text-md sm:text-lg md:text-2xl mb-6 sm:mb-8 max-w-3xl mx-auto">
+            <img id="hero-image" src="https://avatars.githubusercontent.com/u/9909241?v=4" alt="Prashant Gupta"
+                class="w-28 h-28 sm:w-32 sm:h-32 md:w-40 md:h-40 mx-auto rounded-full mb-6 sm:mb-8 shadow-xl border-4 border-white opacity-0 transform scale-90">
+            <h1 id="hero-heading"
+                class="text-3xl sm:text-4xl md:text-6xl font-bold mb-3 sm:mb-4 opacity-0 transform translate-y-5">Hi,
+                I'm Prashant Gupta!</h1>
+            <p id="hero-subheading"
+                class="text-md sm:text-lg md:text-2xl mb-6 sm:mb-8 max-w-3xl mx-auto opacity-0 transform translate-y-5">
+
                 I'm a passionate AI engineer determined to leave the world a better place than how I found it. Welcome
                 to my personal space on the web!
             </p>
-            <a href="#projects"
-                class="btn-primary font-semibold py-2 px-6 sm:py-3 sm:px-8 rounded-lg text-base sm:text-lg shadow-md">
+            <a id="hero-button" href="#projects"
+                class="btn-primary font-semibold py-2 px-6 sm:py-3 sm:px-8 rounded-lg text-base sm:text-lg shadow-md opacity-0 transform translate-y-5">
                 View My Work
             </a>
         </div>
@@ -341,10 +476,13 @@
         <div class="container mx-auto px-4 sm:px-6">
             <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-10 md:mb-12 section-title">About Me
             </h2>
-            <div class="flex flex-col md:flex-row items-center gap-8 md:gap-16">
-                <div class="md:w-1/2 text-base sm:text-lg text-slate-300 space-y-4">
+            <div class="flex flex-col md:flex-row items-start gap-8 md:gap-16">
+                <div class="md:w-1/2 text-base sm:text-lg text-slate-300 space-y-4 fade-in-up">
                     <p>
-                        Hello! I'm Prashant Gupta, an AI engineer based in San Jose, California.
+                        Hello! I'm Prashant Gupta, an AI engineer based in San Jose, California, focussed on Generative AI inference. 
+                        I specialize in deploying and optimizing large-scale LLMs and multimodal models in
+                        production environments. I am also passionate about bringing cutting-edge AI research into 
+                        real-world applications with performance, safety, and usability in mind.
                     </p>
                     <p>
                         My journey into Computer Science began while pursuing my Masters in CS from North Carolina State
@@ -360,10 +498,15 @@
                         Get In Touch
                     </a>
                 </div>
-                <div class="md:w-1/2 mt-8 md:mt-0">
-                    <img src=https://github.com/prashantgupta24/prashantgupta24.github.io/blob/master/assets/_REV5384.jpeg?raw=true"
-                        alt="About me illustration or photo"
-                        class="rounded-lg shadow-2xl w-full max-w-md mx-auto md:max-w-full">
+                <div class="md:w-1/2 mt-8 md:mt-0 w-full fade-in-up delay-200">
+                    <h3 class="text-xl sm:text-2xl font-semibold mb-4 text-slate-100">My Skills</h3>
+                    <div id="skills-container">
+                        <div class="skill" data-skill-name="Python" data-skill-level="90"></div>
+                        <div class="skill" data-skill-name="DevOps (Docker/Kubernetes)" data-skill-level="80"></div>
+                        <div class="skill" data-skill-name="LLM Inference, deployment and optimization" data-skill-level="70"></div>
+                        <div class="skill" data-skill-name="Cloud" data-skill-level="60"></div>
+                        <div class="skill" data-skill-name="Golang" data-skill-level="60"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -377,7 +520,7 @@
                 <div class="project-card bg-slate-800 rounded-xl shadow-xl overflow-hidden">
                     <img src="https://research.ibm.com/_next/image?url=https%3A%2F%2Fresearch-website-prod-cms-uploads.s3.us.cloud-object-storage.appdomain.cloud%2FIBM_Research_AIU_Chip_3_b2c4338886.jpg&w=1080&q=75"
                         alt="Project 1" class="w-full h-48 sm:h-56 object-cover">
-                    <div class="p-5 sm:p-6 flex flex-col flex-grow">
+                    <div class="p-5 sm:p-6 flex flex-col flex-grow project-card-content">
                         <h3 class="text-xl sm:text-2xl font-semibold mb-2 sm:mb-3 text-orange-400">vLLM Spyre</h3>
                         <p class="text-sm sm:text-base text-slate-300 mb-3 sm:mb-4 flex-grow">
                             The vLLM Spyre plugin (vllm-spyre) is a dedicated backend extension that enables seamless
@@ -405,7 +548,7 @@
                 <div class="project-card bg-slate-800 rounded-xl shadow-xl overflow-hidden">
                     <img src="https://d7umqicpi7263.cloudfront.net/img/product/4818ab01-f670-4114-9e6c-8628797ffd08.jpg"
                         alt="Project 2" class="w-full h-48 sm:h-56 object-cover">
-                    <div class="p-5 sm:p-6 flex flex-col flex-grow">
+                    <div class="p-5 sm:p-6 flex flex-col flex-grow project-card-content">
                         <h3 class="text-xl sm:text-2xl font-semibold mb-2 sm:mb-3 text-emerald-400">IBM watsonx</h3>
                         <p class="text-sm sm:text-base text-slate-300 mb-3 sm:mb-4 flex-grow">
                             IBM watsonx is a portfolio of AI products that accelerates the impact of generative AI in
@@ -429,7 +572,7 @@
                 <div class="project-card bg-slate-800 rounded-xl shadow-xl overflow-hidden">
                     <img src="https://www.jotform.com/blog/wp-content/uploads/2020/05/work-from-home-featured-02.png"
                         alt="Project 3" class="w-full h-48 sm:h-56 object-cover">
-                    <div class="p-5 sm:p-6 flex flex-col flex-grow">
+                    <div class="p-5 sm:p-6 flex flex-col flex-grow project-card-content">
                         <h3 class="text-xl sm:text-2xl font-semibold mb-2 sm:mb-3 text-indigo-400">Automatic mouse mover
                         </h3>
                         <p class="text-sm sm:text-base text-slate-300 mb-3 sm:mb-4 flex-grow">
@@ -536,7 +679,6 @@
         // --- START CONSTANTS AND DOM ELEMENTS ---
         const GITHUB_USERNAME = 'prashantgupta24';
         const GITHUB_API_USER_URL = `https://api.github.com/users/${GITHUB_USERNAME}`;
-        // Base URL for fetching all repos (for star count and top starred) - pagination will be handled
         const GITHUB_API_ALL_REPOS_BASE_URL = `https://api.github.com/users/${GITHUB_USERNAME}/repos?per_page=100`;
 
         const CACHE_EXPIRY_MS = 24 * 60 * 60 * 1000; // 24 hours
@@ -550,6 +692,35 @@
         const githubErrorEl = document.getElementById('github-error');
         const githubStatsContainerEl = document.getElementById('github-stats-container');
         const githubReposContainerEl = document.getElementById('github-repos-container');
+
+        const heroImage = document.getElementById('hero-image');
+        const heroHeading = document.getElementById('hero-heading');
+        const heroSubheading = document.getElementById('hero-subheading');
+        const heroButton = document.getElementById('hero-button');
+        const skillsContainer = document.getElementById('skills-container');
+
+        // Intersection Observer for general fade-in-up animations and skill bars
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    if (entry.target.classList.contains('skill-bar-fill')) {
+                        entry.target.style.width = entry.target.dataset.level + '%';
+                    }
+                    // For project card content staggering
+                    if (entry.target.classList.contains('project-card')) {
+                        // The card itself is visible, CSS handles children staggering
+                    }
+                    // We can unobserve if animation is one-time
+                    // For skill bars and project cards, this is handled by the initial setup.
+                    // For simple fade-in-up, unobserving is fine.
+                    if (!entry.target.classList.contains('skill-bar-fill') && !entry.target.classList.contains('project-card')) {
+                        observer.unobserve(entry.target);
+                    }
+                }
+            });
+        }, { threshold: 0.1 });
+
         // --- END CONSTANTS AND DOM ELEMENTS ---
 
         // --- START UI HELPERS ---
@@ -584,25 +755,26 @@
         function displayGitHubStats(userData, totalStars) {
             const starsToDisplay = (typeof totalStars === 'number' && !isNaN(totalStars)) ? totalStars : 'N/A';
             githubStatsContainerEl.innerHTML = `
-                <div class="github-stat-card">
+                <div class="github-stat-card fade-in-up">
                     <p class="stat-label">Total Stars (All Repos)</p>
                     <p class="stat-number">${starsToDisplay}</p>
                 </div>
-                <div class="github-stat-card">
+                <div class="github-stat-card fade-in-up delay-100">
                     <p class="stat-label">Public Repos</p>
                     <p class="stat-number">${userData.public_repos !== undefined ? userData.public_repos : 'N/A'}</p>
                 </div>
-                <div class="github-stat-card">
+                <div class="github-stat-card fade-in-up delay-200">
                     <p class="stat-label">Followers</p>
                     <p class="stat-number">${userData.followers !== undefined ? userData.followers : 'N/A'}</p>
                 </div>
             `;
-            githubStatsContainerEl.classList.remove('md:grid-cols-4'); // Ensure this is removed if previously set
-            githubStatsContainerEl.classList.add('sm:grid-cols-3'); // Ensure 3 columns on small screens and up
+            githubStatsContainerEl.classList.remove('md:grid-cols-4');
+            githubStatsContainerEl.classList.add('sm:grid-cols-3');
             githubStatsContainerEl.classList.remove('hidden');
+            githubStatsContainerEl.querySelectorAll('.github-stat-card').forEach(el => observer.observe(el));
         }
 
-        function displayGitHubRepos(reposData) { // Expects top 3 starred repos
+        function displayGitHubRepos(reposData) {
             githubReposContainerEl.innerHTML = '';
             if (!reposData || reposData.length === 0) {
                 githubReposContainerEl.innerHTML = '<p class="text-slate-400 col-span-full text-center">No public repositories found or API limit reached.</p>';
@@ -610,38 +782,59 @@
                 return;
             }
 
-            reposData.forEach(repo => {
+            reposData.forEach((repo, index) => {
                 const languageColorClass = getLanguageColorClass(repo.language);
-                const repoCard = `
-                    <div class="repo-card">
-                        <a href="${repo.html_url}" target="_blank" rel="noopener noreferrer" class="block hover:no-underline">
-                            <h5 class="repo-name">${repo.name}</h5>
-                        </a>
-                        <p class="repo-description">
-                            ${repo.description ? repo.description : 'No description available.'}
-                        </p>
-                        <div class="repo-meta">
-                            <span>
-                                <svg viewBox="0 0 16 16" version="1.1" aria-hidden="true"><path fill-rule="evenodd" d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25zm0 2.445L6.615 5.5l-2.562.372 1.855 1.806-.438 2.55L8 8.917l2.23.916-.437-2.55 1.856-1.806-2.562-.372L8 2.695z"></path></svg>
-                                ${repo.stargazers_count || 0}
-                            </span>
-                            <span>
-                                ${repo.language ? `<span class="repo-language-dot ${languageColorClass}"></span>` : ''}
-                                ${repo.language || 'N/A'}
-                            </span>
-                            <span>Updated: ${new Date(repo.updated_at).toLocaleDateString()}</span>
-                        </div>
-                         <a href="${repo.html_url}" target="_blank" rel="noopener noreferrer" class="mt-4 inline-block btn-tertiary text-xs font-medium py-1.5 px-3 rounded-md text-center w-full sm:w-auto">View on GitHub</a>
+                const repoCardEl = document.createElement('div');
+                repoCardEl.classList.add('repo-card', 'fade-in-up');
+                repoCardEl.style.transitionDelay = `${index * 0.1}s`; // Stagger repo card appearance
+                repoCardEl.innerHTML = `
+                    <a href="${repo.html_url}" target="_blank" rel="noopener noreferrer" class="block hover:no-underline">
+                        <h5 class="repo-name">${repo.name}</h5>
+                    </a>
+                    <p class="repo-description">
+                        ${repo.description ? repo.description : 'No description available.'}
+                    </p>
+                    <div class="repo-meta">
+                        <span>
+                            <svg viewBox="0 0 16 16" version="1.1" aria-hidden="true"><path fill-rule="evenodd" d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25zm0 2.445L6.615 5.5l-2.562.372 1.855 1.806-.438 2.55L8 8.917l2.23.916-.437-2.55 1.856-1.806-2.562-.372L8 2.695z"></path></svg>
+                            ${repo.stargazers_count || 0}
+                        </span>
+                        <span>
+                            ${repo.language ? `<span class="repo-language-dot ${languageColorClass}"></span>` : ''}
+                            ${repo.language || 'N/A'}
+                        </span>
+                        <span>Updated: ${new Date(repo.updated_at).toLocaleDateString()}</span>
                     </div>
+                     <a href="${repo.html_url}" target="_blank" rel="noopener noreferrer" class="mt-4 inline-block btn-tertiary text-xs font-medium py-1.5 px-3 rounded-md text-center w-full sm:w-auto">View on GitHub</a>
                 `;
-                githubReposContainerEl.innerHTML += repoCard;
+                githubReposContainerEl.appendChild(repoCardEl);
+                observer.observe(repoCardEl);
             });
             githubReposContainerEl.classList.remove('hidden');
+        }
 
-            const newRepoCards = githubReposContainerEl.querySelectorAll('.repo-card');
-            newRepoCards.forEach(el => {
-                el.classList.add('opacity-0', 'translate-y-10', 'transition-all', 'duration-700', 'ease-out');
-                observer.observe(el);
+        function createSkillBars() {
+            // Ensure skillsContainer exists before proceeding
+            if (!skillsContainer) {
+                console.warn('Skills container not found. Skipping skill bar creation.');
+                return;
+            }
+            const skills = skillsContainer.querySelectorAll('.skill');
+            skills.forEach(skill => {
+                const name = skill.dataset.skillName;
+                const level = skill.dataset.skillLevel;
+                // Corrected innerHTML structure: text spans should be children of skill-bar-container
+                skill.innerHTML = `
+                    <div class="skill-bar-container">
+                        <span class="skill-bar-text">${name}</span>
+                        <div class="skill-bar-fill" data-level="${level}"></div>
+                        <span class="skill-bar-percentage">${level}%</span>
+                    </div>
+                `;
+                const fillElement = skill.querySelector('.skill-bar-fill');
+                if (fillElement) {
+                    observer.observe(fillElement);
+                }
             });
         }
         // --- END UI HELPERS ---
@@ -680,9 +873,7 @@
             let page = 1;
             let fetchMore = true;
             let calculatedTotalStars = 0;
-
             console.log("Fetching all user repos for total star count and top starred list...");
-
             while (fetchMore) {
                 try {
                     const response = await fetch(`${GITHUB_API_ALL_REPOS_BASE_URL}&page=${page}`);
@@ -691,23 +882,20 @@
                         if (response.status === 403 || response.status === 429) {
                             throw new Error(`GitHub API rate limit hit or forbidden while fetching all repos (page ${page}).`);
                         }
-                        fetchMore = false;
-                        break;
+                        fetchMore = false; break;
                     }
                     const reposOnPage = await response.json();
                     if (reposOnPage.length === 0) {
                         fetchMore = false;
                     } else {
-                        reposOnPage.forEach(repo => {
-                            calculatedTotalStars += repo.stargazers_count || 0;
-                        });
+                        reposOnPage.forEach(repo => { calculatedTotalStars += repo.stargazers_count || 0; });
                         allFetchedRepos = allFetchedRepos.concat(reposOnPage);
                         page++;
                     }
                 } catch (error) {
                     console.error(`Error during fetching all repos (page ${page}):`, error);
                     fetchMore = false;
-                    if (error.message.includes("rate limit")) throw error; // Re-throw critical errors
+                    if (error.message.includes("rate limit")) throw error;
                 }
             }
             console.log(`Total stars from all ${allFetchedRepos.length} repos: ${calculatedTotalStars}`);
@@ -716,60 +904,67 @@
 
         async function fetchFreshGitHubData() {
             console.log("Fetching fresh GitHub data from API...");
-
             const userResponse = await fetch(GITHUB_API_USER_URL);
             if (!userResponse.ok) throw new Error(`GitHub user API request failed: ${userResponse.status} ${userResponse.statusText}`);
             const userData = await userResponse.json();
-
             const { allRepos: allFetchedRepos, totalStars: totalStarsAllRepos } = await fetchAllUserReposAndStars(GITHUB_USERNAME);
-
             const sortedRepos = [...allFetchedRepos].sort((a, b) => (b.stargazers_count || 0) - (a.stargazers_count || 0));
             const topStarredReposData = sortedRepos.slice(0, 3);
-
             setCachedData('githubUser', userData);
-            setCachedData('githubTopStarredRepos', topStarredReposData); // Cache only the top 3
+            setCachedData('githubTopStarredRepos', topStarredReposData);
             setCachedData('githubTotalStarsAll', totalStarsAllRepos);
-
             return { userData, topStarredReposData, totalStarsAllRepos };
         }
 
         async function manageGitHubData() {
             displayLoadingState(true);
-
             const cachedUser = getCachedData('githubUser');
-            const cachedTopStarredRepos = getCachedData('githubTopStarredRepos'); // This will be the processed top 3
+            const cachedTopStarredRepos = getCachedData('githubTopStarredRepos');
             const cachedTotalStars = getCachedData('githubTotalStarsAll');
-
             if (cachedUser && cachedTopStarredRepos && cachedTotalStars !== null) {
-                console.log("Using cached GitHub data (including total stars and processed top 3 repos).");
+                console.log("Using cached GitHub data.");
                 displayGitHubStats(cachedUser, cachedTotalStars);
-                displayGitHubRepos(cachedTopStarredRepos); // Display cached top 3
+                displayGitHubRepos(cachedTopStarredRepos);
                 displayLoadingState(false);
             } else {
                 console.log("Cache miss or expired. Fetching fresh data.");
                 try {
                     const { userData, topStarredReposData, totalStarsAllRepos } = await fetchFreshGitHubData();
                     displayGitHubStats(userData, totalStarsAllRepos);
-                    displayGitHubRepos(topStarredReposData); // Display freshly processed top 3
+                    displayGitHubRepos(topStarredReposData);
                 } catch (err) {
                     console.error('GitHub API Error during fresh fetch:', err);
-                    if (cachedUser && cachedTopStarredRepos) { // Fallback if fresh fetch failed but some cache exists
+                    if (cachedUser && cachedTopStarredRepos) {
                         console.warn("Failed to fetch all fresh data, attempting to display from partial cache.");
                         const fallbackStars = cachedTotalStars !== null ? cachedTotalStars :
                             (cachedTopStarredRepos.reduce((sum, repo) => sum + (repo.stargazers_count || 0), 0) || 'N/A');
                         displayGitHubStats(cachedUser, fallbackStars);
                         displayGitHubRepos(cachedTopStarredRepos);
-                    } else {
-                        displayErrorState(err.message);
-                    }
-                } finally {
-                    displayLoadingState(false);
-                }
+                    } else { displayErrorState(err.message); }
+                } finally { displayLoadingState(false); }
             }
         }
         // --- END GITHUB API FETCHING ---
 
         // --- START INITIALIZATION AND EVENT LISTENERS ---
+        function initHeroAnimations() {
+            const elements = [
+                { el: heroImage, delay: 100, transform: 'scale(1)', opacity: '1' },
+                { el: heroHeading, delay: 300, transform: 'translateY(0)', opacity: '1' },
+                { el: heroSubheading, delay: 500, transform: 'translateY(0)', opacity: '1' },
+                { el: heroButton, delay: 700, transform: 'translateY(0)', opacity: '1' }
+            ];
+            elements.forEach(item => {
+                if (item.el) {
+                    setTimeout(() => {
+                        item.el.style.opacity = item.opacity;
+                        item.el.style.transform = item.transform;
+                        item.el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+                    }, item.delay);
+                }
+            });
+        }
+
         menuIcon.addEventListener('click', () => {
             mobileMenu.classList.toggle('hidden');
             menuIcon.classList.toggle('open');
@@ -794,35 +989,27 @@
                 if (targetElement) {
                     const navbarHeight = document.querySelector('nav').offsetHeight;
                     const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navbarHeight;
-                    window.scrollTo({
-                        top: targetPosition,
-                        behavior: 'smooth'
-                    });
+                    window.scrollTo({ top: targetPosition, behavior: 'smooth' });
                 }
             });
         });
 
-        if (currentYearEl) {
-            currentYearEl.textContent = new Date().getFullYear();
-        }
+        if (currentYearEl) currentYearEl.textContent = new Date().getFullYear();
 
-        const animatedElements = document.querySelectorAll('.project-card, .repo-card, .github-stat-card, #about .md\\:w-1\\/2 > p, #about .md\\:w-1\\/2 > a, #about .md\\:w-1\\/2 > img');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('opacity-100', 'transform', 'translate-y-0');
-                    entry.target.classList.remove('opacity-0', 'translate-y-10');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.1 });
+        // Apply general fade-in-up to sections/elements that need it
+        document.querySelectorAll('.fade-in-up:not(.github-stat-card):not(.repo-card)').forEach(el => observer.observe(el));
 
-        animatedElements.forEach(el => {
-            el.classList.add('opacity-0', 'translate-y-10', 'transition-all', 'duration-700', 'ease-out');
-            observer.observe(el);
+        // Initialize skill bars if they exist
+        if (skillsContainer) createSkillBars();
+
+        // Apply scroll animations to project cards
+        document.querySelectorAll('.project-card').forEach(card => observer.observe(card));
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initHeroAnimations();
+            manageGitHubData();
         });
-
-        document.addEventListener('DOMContentLoaded', manageGitHubData);
         // --- END INITIALIZATION AND EVENT LISTENERS ---
     </script>
 
