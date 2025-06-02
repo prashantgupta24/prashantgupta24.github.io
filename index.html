@@ -625,6 +625,12 @@
                                 class="font-medium py-2 px-4 rounded-lg text-xs sm:text-sm inline-block bg-indigo-500 hover:bg-indigo-600 text-white transition-colors w-full sm:w-auto text-center">See
                                 Project</a>
                         </div>
+                        <div class="mt-4 pt-3 border-t border-slate-700">
+                            <h4 class="text-xs sm:text-sm font-semibold text-slate-300 mb-1.5">My Contributions:</h4>
+                            <div id="mouse-mover-contributions" class="text-xs text-slate-400 space-y-0.5">
+                                <p>Loading contributions...</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -874,8 +880,8 @@
             });
         }
 
-        function displayVllmSpyreContributions(contributions) {
-            const container = document.getElementById('vllm-spyre-contributions');
+        function displayProjectContributions(contributions, elementId) {
+            const container = document.getElementById(elementId);
             if (container) {
                 if (contributions) {
                     container.innerHTML = `
@@ -884,7 +890,7 @@
                         <p>PRs Reviewed: <span class="font-semibold text-sky-400">${contributions.prsReviewed !== undefined ? contributions.prsReviewed : 'N/A'}</span></p>
                     `;
                 } else {
-                    container.innerHTML = `<p class="text-center">Contribution data not available.</p>`;
+                    container.innerHTML = `<p class="text-xs text-slate-500">Contribution data not available or error fetching.</p>`;
                 }
             }
         }
@@ -953,9 +959,10 @@
             return { allRepos: allFetchedRepos, totalStars: calculatedTotalStars };
         }
 
-        async function fetchVllmSpyreContributionData(username, owner, repo) {
+        async function fetchProjectContributionData(username, owner, repo) {
             let contributions = { commits: 'N/A', prsCreated: 'N/A', prsReviewed: 'N/A' };
-            const API_DELAY_MS = 250; // Small delay between API calls
+            const API_DELAY_MS = 250;
+            console.log(`Fetching contributions for ${owner}/${repo}...`);
 
             try {
                 // 1. Commits
@@ -995,8 +1002,9 @@
                     console.warn(`Failed to fetch PRs reviewed for ${repo}: ${prsReviewedResponse.status} ${prsReviewedResponse.statusText}`);
                 }
             } catch (error) {
-                console.error(`Error fetching vLLM Spyre contributions:`, error);
+                console.error(`Error fetching contributions for ${owner}/${repo}:`, error);
             }
+            console.log(`Contributions for ${owner}/${repo}:`, contributions);
             return contributions;
         }
 
@@ -1006,18 +1014,21 @@
             const userResponse = await fetch(GITHUB_API_USER_URL);
             if (!userResponse.ok) throw new Error(`GitHub user API request failed: ${userResponse.status} ${userResponse.statusText}`);
             const userData = await userResponse.json();
+
             const { allRepos: allFetchedRepos, totalStars: totalStarsAllRepos } = await fetchAllUserReposAndStars(GITHUB_USERNAME);
             const sortedRepos = [...allFetchedRepos].sort((a, b) => (b.stargazers_count || 0) - (a.stargazers_count || 0));
             const topStarredReposData = sortedRepos.slice(0, 3);
 
-            const vllmContributions = await fetchVllmSpyreContributionData(GITHUB_USERNAME, 'vllm-project', 'vllm-spyre');
+            const vllmContributions = await fetchProjectContributionData(GITHUB_USERNAME, 'vllm-project', 'vllm-spyre');
+            const mouseMoverContributions = await fetchProjectContributionData(GITHUB_USERNAME, GITHUB_USERNAME, 'automatic-mouse-mover');
 
             setCachedData('githubUser', userData);
             setCachedData('githubTopStarredRepos', topStarredReposData);
             setCachedData('githubTotalStarsAll', totalStarsAllRepos);
             setCachedData('vllmSpyreContributions', vllmContributions);
+            setCachedData('mouseMoverContributions', mouseMoverContributions);
 
-            return { userData, topStarredReposData, totalStarsAllRepos, vllmContributions };
+            return { userData, topStarredReposData, totalStarsAllRepos, vllmContributions, mouseMoverContributions };
         }
 
         async function manageGitHubData() {
@@ -1026,28 +1037,33 @@
             const cachedTopStarredRepos = getCachedData('githubTopStarredRepos');
             const cachedTotalStars = getCachedData('githubTotalStarsAll');
             const cachedVllmContributions = getCachedData('vllmSpyreContributions');
+            const cachedMouseMoverContributions = getCachedData('mouseMoverContributions');
 
-            if (cachedUser && cachedTopStarredRepos && cachedTotalStars !== null && cachedVllmContributions) {
+
+            if (cachedUser && cachedTopStarredRepos && cachedTotalStars !== null && cachedVllmContributions && cachedMouseMoverContributions) {
                 console.log("Using cached GitHub data.");
                 displayGitHubStats(cachedUser, cachedTotalStars);
                 displayGitHubRepos(cachedTopStarredRepos);
-                displayVllmSpyreContributions(cachedVllmContributions);
+                displayProjectContributions(cachedVllmContributions, 'vllm-spyre-contributions');
+                displayProjectContributions(cachedMouseMoverContributions, 'mouse-mover-contributions');
                 displayLoadingState(false);
             } else {
                 console.log("Cache miss or expired for some GitHub data. Fetching fresh data.");
                 try {
-                    const { userData, topStarredReposData, totalStarsAllRepos, vllmContributions } = await fetchFreshGitHubData();
+                    const { userData, topStarredReposData, totalStarsAllRepos, vllmContributions, mouseMoverContributions } = await fetchFreshGitHubData();
                     displayGitHubStats(userData, totalStarsAllRepos);
                     displayGitHubRepos(topStarredReposData);
-                    displayVllmSpyreContributions(vllmContributions);
+                    displayProjectContributions(vllmContributions, 'vllm-spyre-contributions');
+                    displayProjectContributions(mouseMoverContributions, 'mouse-mover-contributions');
                 } catch (err) {
                     console.error('GitHub API Error during fresh fetch:', err);
                     // Fallback to cached data if parts of fresh fetch failed but some cache exists
                     if (cachedUser) displayGitHubStats(cachedUser, cachedTotalStars !== null ? cachedTotalStars : 'N/A');
                     if (cachedTopStarredRepos) displayGitHubRepos(cachedTopStarredRepos);
-                    if (cachedVllmContributions) displayVllmSpyreContributions(cachedVllmContributions);
+                    if (cachedVllmContributions) displayProjectContributions(cachedVllmContributions, 'vllm-spyre-contributions');
+                    if (cachedMouseMoverContributions) displayProjectContributions(cachedMouseMoverContributions, 'mouse-mover-contributions');
 
-                    if (!cachedUser && !cachedTopStarredRepos && !cachedVllmContributions) { // Only show full error if no cache at all
+                    if (!cachedUser && !cachedTopStarredRepos && !cachedVllmContributions && !cachedMouseMoverContributions) { // Only show full error if no cache at all
                         displayErrorState(err.message);
                     } else {
                         githubErrorEl.textContent = `Warning: Could not refresh all GitHub data. Displaying cached data where possible. Error: ${err.message}`;
