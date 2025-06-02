@@ -574,9 +574,10 @@
                             IBM watsonx is a portfolio of AI products that accelerates the impact of generative AI in
                             core workflows to drive productivity.
                             
-                            You can choose an open source foundation model, bring your own, or use existing models. And run it
-                            across any cloud. Use open, transparent technology. And employ governance and security
-                            controls for easier compliance. My work focused on the inference stack, ensuring models performed optimally at scale.
+                            Users are free to choose an open source foundation model, bring their own, or use existing models while running it
+                            across any cloud and using open, transparent technology with governance and security
+                            controls built in. 
+                            My work focused on the inference stack, ensuring models performed optimally at scale.
                         </p>
                         <button class="read-more-btn" aria-expanded="false">Read more</button>
                         <div class="my-3 sm:my-4">
@@ -589,8 +590,16 @@
                         </div>
                         <div class="mt-auto">
                             <a href="https://www.ibm.com/watsonx" target="_blank" rel="noopener noreferrer"
-                                class="btn-secondary w-full sm:w-auto text-center font-medium py-2 px-4 rounded-lg text-xs sm:text-sm inline-block">Explore
-                                more</a>
+                                class="btn-secondary w-full sm:w-auto text-center font-medium py-2 px-4 rounded-lg text-xs sm:text-sm inline-block">View
+                                Project</a>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-slate-700">
+                            <h4 class="text-xs sm:text-sm font-semibold text-slate-300 mb-1.5">My Contributions:</h4>
+                            <div id="watsonx-contributions" class="text-xs text-slate-400 space-y-0.5">
+                                <p>Public contributions are not available for this project. Nevertheless, I played a pivotal role in delivering high-quality 
+                                code into production through active participation in code reviews and rigorous
+                                testing.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -622,7 +631,7 @@
                         <div class="mt-auto">
                             <a href="https://github.com/prashantgupta24/automatic-mouse-mover" target="_blank"
                                 rel="noopener noreferrer"
-                                class="font-medium py-2 px-4 rounded-lg text-xs sm:text-sm inline-block bg-indigo-500 hover:bg-indigo-600 text-white transition-colors w-full sm:w-auto text-center">See
+                                class="font-medium py-2 px-4 rounded-lg text-xs sm:text-sm inline-block bg-indigo-500 hover:bg-indigo-600 text-white transition-colors w-full sm:w-auto text-center">View
                                 Project</a>
                         </div>
                         <div class="mt-4 pt-3 border-t border-slate-700">
@@ -883,7 +892,9 @@
         function displayProjectContributions(contributions, elementId) {
             const container = document.getElementById(elementId);
             if (container) {
-                if (contributions) {
+                if (contributions && contributions.isPrivate) { // Check for the private flag
+                    container.innerHTML = `<p class="text-xs text-slate-500">${contributions.message}</p>`;
+                } else if (contributions) {
                     container.innerHTML = `
                         <p>Commits: <span class="font-semibold text-sky-400">${contributions.commits !== undefined ? contributions.commits : 'N/A'}</span></p>
                         <p>PRs Created: <span class="font-semibold text-sky-400">${contributions.prsCreated !== undefined ? contributions.prsCreated : 'N/A'}</span></p>
