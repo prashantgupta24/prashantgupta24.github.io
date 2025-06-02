@@ -369,7 +369,7 @@
             transition-delay: 0.2s;
         }
 
-        /* Description paragraph */
+        /* Description div wrapper */
         .project-card.is-visible .project-card-content>*:nth-child(3) {
             transition-delay: 0.25s;
         }
@@ -396,16 +396,11 @@
         .project-description-text {
             overflow: hidden;
             transition: max-height 0.4s ease-in-out;
+            line-height: 1.4;
         }
 
         .project-description-text.is-truncated {
             max-height: 4.2em;
-            /* Approx 3 lines (1.4em line-height * 3) */
-            /* The following webkit properties are a common way to achieve line clamping with ellipsis */
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            text-overflow: ellipsis;
         }
 
         .read-more-btn {
@@ -532,14 +527,20 @@
                         alt="Project 1" class="w-full h-48 sm:h-56 object-cover">
                     <div class="p-5 sm:p-6 flex flex-col flex-grow project-card-content">
                         <h3 class="text-xl sm:text-2xl font-semibold mb-2 sm:mb-3 text-orange-400">vLLM Spyre</h3>
-                        <p class="project-description-text text-sm sm:text-base text-slate-300 mb-1 flex-grow">
-                            The vLLM Spyre plugin (vllm-spyre) is a dedicated backend extension that enables seamless
-                            integration of IBM Spyre Accelerator with vLLM. It follows the architecture described in
-                            vLLM’s Plugin System, making it easy to integrate IBM’s advanced AI acceleration into
-                            existing vLLM workflows.
-                            My work focused on understanding the intricacies of inferencing optimizations and
-                            attention mechanisms within large language models to ensure efficient hardware utilization.
-                        </p>
+                        <div class="project-description-text text-sm sm:text-base text-slate-300 mb-1 flex-grow">
+                            <p>
+                                The vLLM Spyre plugin (vllm-spyre) is a dedicated backend extension that enables
+                                seamless
+                                integration of IBM Spyre Accelerator with vLLM. It follows the architecture described in
+                                vLLM’s Plugin System, making it easy to integrate IBM’s advanced AI acceleration into
+                                existing vLLM workflows.
+                            </p>
+                            <p class="mt-2">
+                                My work focused on understanding the intricacies of inferencing optimizations and
+                                attention mechanisms within large language models to ensure efficient hardware
+                                utilization.
+                            </p>
+                        </div>
                         <button class="read-more-btn" aria-expanded="false">Read more</button>
                         <div class="my-3 sm:my-4"> <span
                                 class="inline-block bg-sky-600 text-sky-100 text-xs font-semibold mr-2 mb-1 px-2.5 py-0.5 rounded-full">inference</span>
@@ -570,15 +571,20 @@
                         alt="Project 2" class="w-full h-48 sm:h-56 object-cover">
                     <div class="p-5 sm:p-6 flex flex-col flex-grow project-card-content">
                         <h3 class="text-xl sm:text-2xl font-semibold mb-2 sm:mb-3 text-emerald-400">IBM watsonx</h3>
-                        <p class="project-description-text text-sm sm:text-base text-slate-300 mb-1 flex-grow">
-                            IBM watsonx is a portfolio of AI products that accelerates the impact of generative AI in
-                            core workflows to drive productivity.
-                            
-                            Users are free to choose an open source foundation model, bring their own, or use existing models while running it
-                            across any cloud and using open, transparent technology with governance and security
-                            controls built in. 
-                            My work focused on the inference stack, ensuring models performed optimally at scale.
-                        </p>
+                        <div class="project-description-text text-sm sm:text-base text-slate-300 mb-1 flex-grow">
+                            <p>
+                                IBM watsonx is a portfolio of AI products that accelerates the impact of generative AI
+                                in
+                                core workflows to drive productivity.
+                                Users are free to choose an open source foundation model, bring their own, or use
+                                existing models while running it
+                                across any cloud and using open, transparent technology with governance and security
+                                controls built in.
+                            </p>
+                            <p class="mt-2">
+                                My work focused on the inference stack, ensuring models performed optimally at scale.
+                            </p>
+                        </div>
                         <button class="read-more-btn" aria-expanded="false">Read more</button>
                         <div class="my-3 sm:my-4">
                             <span
@@ -596,9 +602,7 @@
                         <div class="mt-4 pt-3 border-t border-slate-700">
                             <h4 class="text-xs sm:text-sm font-semibold text-slate-300 mb-1.5">My Contributions:</h4>
                             <div id="watsonx-contributions" class="text-xs text-slate-400 space-y-0.5">
-                                <p>Public contributions are not available for this project. Nevertheless, I played a pivotal role in delivering high-quality 
-                                code into production through active participation in code reviews and rigorous
-                                testing.</p>
+                                <p></p>
                             </div>
                         </div>
                     </div>
@@ -609,16 +613,22 @@
                     <div class="p-5 sm:p-6 flex flex-col flex-grow project-card-content">
                         <h3 class="text-xl sm:text-2xl font-semibold mb-2 sm:mb-3 text-indigo-400">Automatic mouse mover
                         </h3>
-                        <p class="project-description-text text-sm sm:text-base text-slate-300 mb-1 flex-grow">
-                            A minimalistic go library/app to keep your mac active and alive! The simplest app that has
-                            the sole purpose of moving your mouse pointer at regular intervals so that your machine is
-                            kept awake!
-                            And best of all, it works ONLY when you are not working, so be rest assured that the mouse
-                            won't
-                            start moving on its own without the machine actually being idle. This was a fun weekend
-                            project
-                            to explore Multithreading with Go Routines in Golang.
-                        </p>
+                        <div class="project-description-text text-sm sm:text-base text-slate-300 mb-1 flex-grow">
+                            <p>
+                                A minimalistic go library/app to keep your mac active and alive! The simplest app that
+                                has
+                                the sole purpose of moving your mouse pointer at regular intervals so that your machine
+                                is
+                                kept awake!
+                                And best of all, it works ONLY when you are not working, so be rest assured that the
+                                mouse
+                                won't
+                                start moving on its own without the machine actually being idle.
+                            </p>
+                            <p class="mt-2">
+                                This was a fun weekend project to explore Multithreading with Go Routines in Golang.
+                            </p>
+                        </div>
                         <button class="read-more-btn" aria-expanded="false">Read more</button>
                         <div class="my-3 sm:my-4">
                             <span
@@ -874,7 +884,6 @@
             skills.forEach(skill => {
                 const name = skill.dataset.skillName;
                 const level = skill.dataset.skillLevel;
-                // Corrected innerHTML structure: text spans should be children of skill-bar-container
                 skill.innerHTML = `
                     <div class="skill-bar-container">
                         <span class="skill-bar-text">${name}</span>
@@ -1032,14 +1041,24 @@
 
             const vllmContributions = await fetchProjectContributionData(GITHUB_USERNAME, 'vllm-project', 'vllm-spyre');
             const mouseMoverContributions = await fetchProjectContributionData(GITHUB_USERNAME, GITHUB_USERNAME, 'automatic-mouse-mover');
+            // For WatsonX, we don't fetch, we use a static message.
+            const watsonxContributions = {
+                isPrivate: true,
+                message: "Public contributions are not available for this project. Nevertheless, I played a \
+                                    pivotal role in delivering high- quality \
+                                    code into production through active participation in code reviews and rigorous \
+                            testing."
+            };
+
 
             setCachedData('githubUser', userData);
             setCachedData('githubTopStarredRepos', topStarredReposData);
             setCachedData('githubTotalStarsAll', totalStarsAllRepos);
             setCachedData('vllmSpyreContributions', vllmContributions);
             setCachedData('mouseMoverContributions', mouseMoverContributions);
+            setCachedData('watsonxContributions', watsonxContributions); // Cache the static message too
 
-            return { userData, topStarredReposData, totalStarsAllRepos, vllmContributions, mouseMoverContributions };
+            return { userData, topStarredReposData, totalStarsAllRepos, vllmContributions, mouseMoverContributions, watsonxContributions };
         }
 
         async function manageGitHubData() {
@@ -1049,23 +1068,26 @@
             const cachedTotalStars = getCachedData('githubTotalStarsAll');
             const cachedVllmContributions = getCachedData('vllmSpyreContributions');
             const cachedMouseMoverContributions = getCachedData('mouseMoverContributions');
+            const cachedWatsonxContributions = getCachedData('watsonxContributions');
 
 
-            if (cachedUser && cachedTopStarredRepos && cachedTotalStars !== null && cachedVllmContributions && cachedMouseMoverContributions) {
+            if (cachedUser && cachedTopStarredRepos && cachedTotalStars !== null && cachedVllmContributions && cachedMouseMoverContributions && cachedWatsonxContributions) {
                 console.log("Using cached GitHub data.");
                 displayGitHubStats(cachedUser, cachedTotalStars);
                 displayGitHubRepos(cachedTopStarredRepos);
                 displayProjectContributions(cachedVllmContributions, 'vllm-spyre-contributions');
                 displayProjectContributions(cachedMouseMoverContributions, 'mouse-mover-contributions');
+                displayProjectContributions(cachedWatsonxContributions, 'watsonx-contributions');
                 displayLoadingState(false);
             } else {
                 console.log("Cache miss or expired for some GitHub data. Fetching fresh data.");
                 try {
-                    const { userData, topStarredReposData, totalStarsAllRepos, vllmContributions, mouseMoverContributions } = await fetchFreshGitHubData();
+                    const { userData, topStarredReposData, totalStarsAllRepos, vllmContributions, mouseMoverContributions, watsonxContributions } = await fetchFreshGitHubData();
                     displayGitHubStats(userData, totalStarsAllRepos);
                     displayGitHubRepos(topStarredReposData);
                     displayProjectContributions(vllmContributions, 'vllm-spyre-contributions');
                     displayProjectContributions(mouseMoverContributions, 'mouse-mover-contributions');
+                    displayProjectContributions(watsonxContributions, 'watsonx-contributions');
                 } catch (err) {
                     console.error('GitHub API Error during fresh fetch:', err);
                     // Fallback to cached data if parts of fresh fetch failed but some cache exists
@@ -1073,8 +1095,9 @@
                     if (cachedTopStarredRepos) displayGitHubRepos(cachedTopStarredRepos);
                     if (cachedVllmContributions) displayProjectContributions(cachedVllmContributions, 'vllm-spyre-contributions');
                     if (cachedMouseMoverContributions) displayProjectContributions(cachedMouseMoverContributions, 'mouse-mover-contributions');
+                    if (cachedWatsonxContributions) displayProjectContributions(cachedWatsonxContributions, 'watsonx-contributions');
 
-                    if (!cachedUser && !cachedTopStarredRepos && !cachedVllmContributions && !cachedMouseMoverContributions) { // Only show full error if no cache at all
+                    if (!cachedUser && !cachedTopStarredRepos && !cachedVllmContributions && !cachedMouseMoverContributions && !cachedWatsonxContributions) { // Only show full error if no cache at all
                         displayErrorState(err.message);
                     } else {
                         githubErrorEl.textContent = `Warning: Could not refresh all GitHub data. Displaying cached data where possible. Error: ${err.message}`;
