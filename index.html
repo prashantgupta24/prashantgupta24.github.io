@@ -421,7 +421,11 @@
             transition-delay: 0.4s;
         }
 
-        /* Buttons div */
+        .project-card.is-visible .project-card-content>*:nth-child(5) {
+            transition-delay: 0.5s;
+        }
+
+        /* For new contributions div */
     </style>
 </head>
 
@@ -461,7 +465,6 @@
                 I'm Prashant Gupta!</h1>
             <p id="hero-subheading"
                 class="text-md sm:text-lg md:text-2xl mb-6 sm:mb-8 max-w-3xl mx-auto opacity-0 transform translate-y-5">
-
                 I'm a passionate AI engineer determined to leave the world a better place than how I found it. Welcome
                 to my personal space on the web!
             </p>
@@ -504,6 +507,7 @@
                         <div class="skill" data-skill-name="Python" data-skill-level="90"></div>
                         <div class="skill" data-skill-name="DevOps (Docker/Kubernetes)" data-skill-level="80"></div>
                         <div class="skill" data-skill-name="LLM Inference, deployment and optimization" data-skill-level="70"></div>
+                        <div class="skill" data-skill-name="Pickleball :)" data-skill-level="65"></div>
                         <div class="skill" data-skill-name="Cloud" data-skill-level="60"></div>
                         <div class="skill" data-skill-name="Golang" data-skill-level="60"></div>
                     </div>
@@ -542,6 +546,12 @@
                             <a href="https://docs.vllm.ai/en/latest/" target="_blank" rel="noopener noreferrer"
                                 class="btn-tertiary w-full sm:w-auto text-center font-medium py-2 px-4 rounded-lg text-xs sm:text-sm inline-block">What's
                                 vLLM?</a>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-slate-700">
+                            <h4 class="text-xs sm:text-sm font-semibold text-slate-300 mb-1.5">My Contributions:</h4>
+                            <div id="vllm-spyre-contributions" class="text-xs text-slate-400 space-y-0.5">
+                                <p>Loading contributions...</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -781,7 +791,6 @@
                 githubReposContainerEl.classList.remove('hidden');
                 return;
             }
-
             reposData.forEach((repo, index) => {
                 const languageColorClass = getLanguageColorClass(repo.language);
                 const repoCardEl = document.createElement('div');
@@ -836,6 +845,21 @@
                     observer.observe(fillElement);
                 }
             });
+        }
+
+        function displayVllmSpyreContributions(contributions) {
+            const container = document.getElementById('vllm-spyre-contributions');
+            if (container) {
+                if (contributions) {
+                    container.innerHTML = `
+                        <p>Commits: <span class="font-semibold text-sky-400">${contributions.commits !== undefined ? contributions.commits : 'N/A'}</span></p>
+                        <p>PRs Created: <span class="font-semibold text-sky-400">${contributions.prsCreated !== undefined ? contributions.prsCreated : 'N/A'}</span></p>
+                        <p>PRs Reviewed: <span class="font-semibold text-sky-400">${contributions.prsReviewed !== undefined ? contributions.prsReviewed : 'N/A'}</span></p>
+                    `;
+                } else {
+                    container.innerHTML = `<p class="text-center">Contribution data not available.</p>`;
+                }
+            }
         }
         // --- END UI HELPERS ---
 
@@ -902,6 +926,54 @@
             return { allRepos: allFetchedRepos, totalStars: calculatedTotalStars };
         }
 
+        async function fetchVllmSpyreContributionData(username, owner, repo) {
+            let contributions = { commits: 'N/A', prsCreated: 'N/A', prsReviewed: 'N/A' };
+            const API_DELAY_MS = 250; // Small delay between API calls
+
+            try {
+                // 1. Commits
+                const contributorsStatsResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/stats/contributors`);
+                if (contributorsStatsResponse.ok) {
+                    const contributorsData = await contributorsStatsResponse.json();
+                    // The response might be empty if no contributors or if stats are still computing (202)
+                    if (Array.isArray(contributorsData)) {
+                        const userContrib = contributorsData.find(c => c.author.login.toLowerCase() === username.toLowerCase());
+                        if (userContrib) {
+                            contributions.commits = userContrib.total;
+                        }
+                    } else if (contributorsStatsResponse.status === 202) {
+                        console.warn(`Contributor stats for ${repo} are still being computed by GitHub.`);
+                    }
+                } else {
+                    console.warn(`Failed to fetch contributor stats for ${repo}: ${contributorsStatsResponse.status} ${contributorsStatsResponse.statusText}`);
+                }
+                await new Promise(resolve => setTimeout(resolve, API_DELAY_MS));
+
+                // 2. PRs Created
+                const prsCreatedResponse = await fetch(`https://api.github.com/search/issues?q=repo:${owner}/${repo}+type:pr+author:${username}`);
+                if (prsCreatedResponse.ok) {
+                    const prsCreatedData = await prsCreatedResponse.json();
+                    contributions.prsCreated = prsCreatedData.total_count;
+                } else {
+                    console.warn(`Failed to fetch PRs created for ${repo}: ${prsCreatedResponse.status} ${prsCreatedResponse.statusText}`);
+                }
+                await new Promise(resolve => setTimeout(resolve, API_DELAY_MS));
+
+                // 3. PRs Reviewed
+                const prsReviewedResponse = await fetch(`https://api.github.com/search/issues?q=repo:${owner}/${repo}+type:pr+reviewed-by:${username}`);
+                if (prsReviewedResponse.ok) {
+                    const prsReviewedData = await prsReviewedResponse.json();
+                    contributions.prsReviewed = prsReviewedData.total_count;
+                } else {
+                    console.warn(`Failed to fetch PRs reviewed for ${repo}: ${prsReviewedResponse.status} ${prsReviewedResponse.statusText}`);
+                }
+            } catch (error) {
+                console.error(`Error fetching vLLM Spyre contributions:`, error);
+            }
+            return contributions;
+        }
+
+
         async function fetchFreshGitHubData() {
             console.log("Fetching fresh GitHub data from API...");
             const userResponse = await fetch(GITHUB_API_USER_URL);
@@ -910,10 +982,15 @@
             const { allRepos: allFetchedRepos, totalStars: totalStarsAllRepos } = await fetchAllUserReposAndStars(GITHUB_USERNAME);
             const sortedRepos = [...allFetchedRepos].sort((a, b) => (b.stargazers_count || 0) - (a.stargazers_count || 0));
             const topStarredReposData = sortedRepos.slice(0, 3);
+
+            const vllmContributions = await fetchVllmSpyreContributionData(GITHUB_USERNAME, 'vllm-project', 'vllm-spyre');
+
             setCachedData('githubUser', userData);
             setCachedData('githubTopStarredRepos', topStarredReposData);
             setCachedData('githubTotalStarsAll', totalStarsAllRepos);
-            return { userData, topStarredReposData, totalStarsAllRepos };
+            setCachedData('vllmSpyreContributions', vllmContributions);
+
+            return { userData, topStarredReposData, totalStarsAllRepos, vllmContributions };
         }
 
         async function manageGitHubData() {
@@ -921,27 +998,37 @@
             const cachedUser = getCachedData('githubUser');
             const cachedTopStarredRepos = getCachedData('githubTopStarredRepos');
             const cachedTotalStars = getCachedData('githubTotalStarsAll');
-            if (cachedUser && cachedTopStarredRepos && cachedTotalStars !== null) {
+            const cachedVllmContributions = getCachedData('vllmSpyreContributions');
+
+            if (cachedUser && cachedTopStarredRepos && cachedTotalStars !== null && cachedVllmContributions) {
                 console.log("Using cached GitHub data.");
                 displayGitHubStats(cachedUser, cachedTotalStars);
                 displayGitHubRepos(cachedTopStarredRepos);
+                displayVllmSpyreContributions(cachedVllmContributions);
                 displayLoadingState(false);
             } else {
-                console.log("Cache miss or expired. Fetching fresh data.");
+                console.log("Cache miss or expired for some GitHub data. Fetching fresh data.");
                 try {
-                    const { userData, topStarredReposData, totalStarsAllRepos } = await fetchFreshGitHubData();
+                    const { userData, topStarredReposData, totalStarsAllRepos, vllmContributions } = await fetchFreshGitHubData();
                     displayGitHubStats(userData, totalStarsAllRepos);
                     displayGitHubRepos(topStarredReposData);
+                    displayVllmSpyreContributions(vllmContributions);
                 } catch (err) {
                     console.error('GitHub API Error during fresh fetch:', err);
-                    if (cachedUser && cachedTopStarredRepos) {
-                        console.warn("Failed to fetch all fresh data, attempting to display from partial cache.");
-                        const fallbackStars = cachedTotalStars !== null ? cachedTotalStars :
-                            (cachedTopStarredRepos.reduce((sum, repo) => sum + (repo.stargazers_count || 0), 0) || 'N/A');
-                        displayGitHubStats(cachedUser, fallbackStars);
-                        displayGitHubRepos(cachedTopStarredRepos);
-                    } else { displayErrorState(err.message); }
-                } finally { displayLoadingState(false); }
+                    // Fallback to cached data if parts of fresh fetch failed but some cache exists
+                    if (cachedUser) displayGitHubStats(cachedUser, cachedTotalStars !== null ? cachedTotalStars : 'N/A');
+                    if (cachedTopStarredRepos) displayGitHubRepos(cachedTopStarredRepos);
+                    if (cachedVllmContributions) displayVllmSpyreContributions(cachedVllmContributions);
+
+                    if (!cachedUser && !cachedTopStarredRepos && !cachedVllmContributions) { // Only show full error if no cache at all
+                        displayErrorState(err.message);
+                    } else {
+                        githubErrorEl.textContent = `Warning: Could not refresh all GitHub data. Displaying cached data where possible. Error: ${err.message}`;
+                        githubErrorEl.classList.remove('hidden');
+                    }
+                } finally {
+                    displayLoadingState(false);
+                }
             }
         }
         // --- END GITHUB API FETCHING ---
