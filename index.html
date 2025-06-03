@@ -985,21 +985,17 @@
             console.log(`Fetching contributions for ${owner}/${repo}...`);
 
             try {
-                // 1. Commits
-                const contributorsStatsResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/stats/contributors`);
-                if (contributorsStatsResponse.ok) {
-                    const contributorsData = await contributorsStatsResponse.json();
-                    // The response might be empty if no contributors or if stats are still computing (202)
-                    if (Array.isArray(contributorsData)) {
-                        const userContrib = contributorsData.find(c => c.author.login.toLowerCase() === username.toLowerCase());
-                        if (userContrib) {
-                            contributions.commits = userContrib.total;
-                        }
-                    } else if (contributorsStatsResponse.status === 202) {
-                        console.warn(`Contributor stats for ${repo} are still being computed by GitHub.`);
+                // 1. Commits using Search API
+                const commitsSearchResponse = await fetch(`https://api.github.com/search/commits?q=repo:${owner}/${repo}+author:${username}`, {
+                    headers: {
+                        'Accept': 'application/vnd.github.cloak-preview' // Recommended header for commit search
                     }
+                });
+                if (commitsSearchResponse.ok) {
+                    const commitsSearchData = await commitsSearchResponse.json();
+                    contributions.commits = commitsSearchData.total_count;
                 } else {
-                    console.warn(`Failed to fetch contributor stats for ${repo}: ${contributorsStatsResponse.status} ${contributorsStatsResponse.statusText}`);
+                    console.warn(`Failed to fetch commit count for ${repo} via search: ${commitsSearchResponse.status} ${commitsSearchResponse.statusText}`);
                 }
                 await new Promise(resolve => setTimeout(resolve, API_DELAY_MS));
 
