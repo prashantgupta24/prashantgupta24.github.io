@@ -988,7 +988,8 @@
                 // 1. Commits using Search API
                 const commitsSearchResponse = await fetch(`https://api.github.com/search/commits?q=repo:${owner}/${repo}+author:${username}`, {
                     headers: {
-                        'Accept': 'application/vnd.github.cloak-preview' // Recommended header for commit search
+                        // Recommended header for commit search API to opt into previews/future changes
+                        'Accept': 'application/vnd.github.cloak-preview+json'
                     }
                 });
                 if (commitsSearchResponse.ok) {
@@ -1031,13 +1032,17 @@
             if (!userResponse.ok) throw new Error(`GitHub user API request failed: ${userResponse.status} ${userResponse.statusText}`);
             const userData = await userResponse.json();
 
-            const { allRepos: allFetchedRepos, totalStars: totalStarsAllRepos } = await fetchAllUserReposAndStars(GITHUB_USERNAME);
+            // const { allRepos: allFetchedRepos, totalStars: totalStarsAllRepos } = await fetchAllUserReposAndStars(GITHUB_USERNAME);
+            
+            // Fetch contributions for projects in parallel
+            const [vllmContributions, mouseMoverContributions, { allFetchedRepos, totalStarsAllRepos } ] = await Promise.all([
+                fetchProjectContributionData(GITHUB_USERNAME, 'vllm-project', 'vllm-spyre'),
+                fetchProjectContributionData(GITHUB_USERNAME, GITHUB_USERNAME, 'automatic-mouse-mover'),
+                fetchAllUserReposAndStars(GITHUB_USERNAME)
+            ]);
             const sortedRepos = [...allFetchedRepos].sort((a, b) => (b.stargazers_count || 0) - (a.stargazers_count || 0));
             const topStarredReposData = sortedRepos.slice(0, 3);
 
-            const vllmContributions = await fetchProjectContributionData(GITHUB_USERNAME, 'vllm-project', 'vllm-spyre');
-            const mouseMoverContributions = await fetchProjectContributionData(GITHUB_USERNAME, GITHUB_USERNAME, 'automatic-mouse-mover');
-            // For WatsonX, we don't fetch, we use a static message.
             const watsonxContributions = {
                 isPrivate: true,
                 message: "Public contributions are not available for this project. Nevertheless, I played a \
