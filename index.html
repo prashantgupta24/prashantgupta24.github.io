@@ -947,83 +947,136 @@
         // --- START GITHUB API FETCHING ---
         async function fetchAllUserReposAndStars(username) {
             let allFetchedRepos = [];
-            let page = 1;
-            let fetchMore = true;
             let calculatedTotalStars = 0;
             console.log("Fetching all user repos for total star count and top starred list...");
-            while (fetchMore) {
-                try {
-                    const response = await fetch(`${GITHUB_API_ALL_REPOS_BASE_URL}&page=${page}`);
-                    if (!response.ok) {
-                        console.error(`Failed to fetch page ${page} of repos: ${response.status} ${response.statusText}`);
-                        if (response.status === 403 || response.status === 429) {
-                            throw new Error(`GitHub API rate limit hit or forbidden while fetching all repos (page ${page}).`);
-                        }
-                        fetchMore = false; break;
-                    }
-                    const reposOnPage = await response.json();
-                    if (reposOnPage.length === 0) {
-                        fetchMore = false;
-                    } else {
-                        reposOnPage.forEach(repo => { calculatedTotalStars += repo.stargazers_count || 0; });
-                        allFetchedRepos = allFetchedRepos.concat(reposOnPage);
-                        page++;
-                    }
-                } catch (error) {
-                    console.error(`Error during fetching all repos (page ${page}):`, error);
-                    fetchMore = false;
-                    if (error.message.includes("rate limit")) throw error;
+
+            const firstPageResponse = await fetch(`${GITHUB_API_ALL_REPOS_BASE_URL}&page=1`);
+            if (!firstPageResponse.ok) {
+                if (firstPageResponse.status === 403 || firstPageResponse.status === 429) {
+                    throw new Error(`GitHub API rate limit hit or forbidden while fetching first page of repos.`);
                 }
+                throw new Error(`Failed to fetch first page of repos: ${firstPageResponse.status} ${firstPageResponse.statusText}`);
             }
+
+            const firstPageData = await firstPageResponse.json();
+            firstPageData.forEach(repo => { calculatedTotalStars += repo.stargazers_count || 0; });
+            allFetchedRepos = allFetchedRepos.concat(firstPageData);
+
+            // TODO: fix multi-page scenario
+            // const linkHeader = firstPageResponse.headers.get('Link');
+            // let lastPage = 1;
+            // if (linkHeader) {
+            //     const links = linkHeader.split(',');
+            //     const lastLink = links.find(s => s.includes('rel="last"'));
+            //     if (lastLink) {
+            //         const match = lastLink.match(/page=(\d+)/);
+            //         if (match) {
+            //             lastPage = parseInt(match[1], 10);
+            //         }
+            //     }
+            // }
+            // console.log(`Total pages of repos: ${lastPage}`);
+
+            // if (lastPage > 1) {
+            //     const pagePromises = [];
+            //     for (let page = 2; page <= lastPage; page++) {
+            //         pagePromises.push(
+            //             fetch(`${GITHUB_API_ALL_REPOS_BASE_URL}&page=${page}`)
+            //                 .then(response => {
+            //                     if (!response.ok) {
+            //                         console.error(`Failed to fetch page ${page} of repos: ${response.status} ${response.statusText}`);
+            //                         if (response.status === 403 || response.status === 429) {
+            //                             throw new Error(`GitHub API rate limit hit or forbidden while fetching page ${page} of repos.`);
+            //                         }
+            //                         return [];
+            //                     }
+            //                     return response.json();
+            //                 })
+            //                 .catch(error => {
+            //                     console.error(`Network error fetching page ${page}:`, error);
+            //                     if (error.message.includes("rate limit")) throw error;
+            //                     return [];
+            //                 })
+            //         );
+            //     }
+            //     try {
+            //         const subsequentPagesData = await Promise.all(pagePromises);
+            //         subsequentPagesData.forEach(pageData => {
+            //             if (Array.isArray(pageData)) {
+            //                 pageData.forEach(repo => { calculatedTotalStars += repo.stargazers_count || 0; });
+            //                 allFetchedRepos = allFetchedRepos.concat(pageData);
+            //             }
+            //         });
+            //     } catch (error) {
+            //         console.error("Error fetching subsequent repo pages with Promise.all:", error);
+            //     }
+            // }
+
             console.log(`Total stars from all ${allFetchedRepos.length} repos: ${calculatedTotalStars}`);
             return { allRepos: allFetchedRepos, totalStars: calculatedTotalStars };
         }
 
+
         async function fetchProjectContributionData(username, owner, repo) {
             let contributions = { commits: 'N/A', prsCreated: 'N/A', prsReviewed: 'N/A' };
-            const API_DELAY_MS = 250;
             console.log(`Fetching contributions for ${owner}/${repo}...`);
 
-            try {
-                // 1. Commits
-                const contributorsStatsResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/stats/contributors`);
-                if (contributorsStatsResponse.ok) {
-                    const contributorsData = await contributorsStatsResponse.json();
-                    // The response might be empty if no contributors or if stats are still computing (202)
-                    if (Array.isArray(contributorsData)) {
-                        const userContrib = contributorsData.find(c => c.author.login.toLowerCase() === username.toLowerCase());
-                        if (userContrib) {
-                            contributions.commits = userContrib.total;
-                        }
-                    } else if (contributorsStatsResponse.status === 202) {
-                        console.warn(`Contributor stats for ${repo} are still being computed by GitHub.`);
+            // Create promises for each API call for this specific project
+            const commitPromise = fetch(`https://api.github.com/search/commits?q=repo:${owner}/${repo}+author:${username}`, {
+                headers: { 'Accept': 'application/vnd.github.cloak-preview+json' }
+            }).then(async res => {
+                if (res.ok) {
+                    const data = await res.json();
+                    return data.total_count;
+                }
+                console.warn(`Failed to fetch commit count for ${repo} via search: ${res.status} ${res.statusText}`);
+                return 'N/A'; // Return 'N/A' or specific error for this part
+            }).catch(err => {
+                console.error(`Network error fetching commits for ${repo}:`, err);
+                return 'N/A';
+            });
+
+            const prCreatedPromise = fetch(`https://api.github.com/search/issues?q=repo:${owner}/${repo}+type:pr+author:${username}`)
+                .then(async res => {
+                    if (res.ok) {
+                        const data = await res.json();
+                        return data.total_count;
                     }
-                } else {
-                    console.warn(`Failed to fetch contributor stats for ${repo}: ${contributorsStatsResponse.status} ${contributorsStatsResponse.statusText}`);
-                }
-                await new Promise(resolve => setTimeout(resolve, API_DELAY_MS));
+                    console.warn(`Failed to fetch PRs created for ${repo}: ${res.status} ${res.statusText}`);
+                    return 'N/A';
+                }).catch(err => {
+                    console.error(`Network error fetching PRs created for ${repo}:`, err);
+                    return 'N/A';
+                });
 
-                // 2. PRs Created
-                const prsCreatedResponse = await fetch(`https://api.github.com/search/issues?q=repo:${owner}/${repo}+type:pr+author:${username}`);
-                if (prsCreatedResponse.ok) {
-                    const prsCreatedData = await prsCreatedResponse.json();
-                    contributions.prsCreated = prsCreatedData.total_count;
-                } else {
-                    console.warn(`Failed to fetch PRs created for ${repo}: ${prsCreatedResponse.status} ${prsCreatedResponse.statusText}`);
-                }
-                await new Promise(resolve => setTimeout(resolve, API_DELAY_MS));
+            const prReviewedPromise = fetch(`https://api.github.com/search/issues?q=repo:${owner}/${repo}+type:pr+reviewed-by:${username}`)
+                .then(async res => {
+                    if (res.ok) {
+                        const data = await res.json();
+                        return data.total_count;
+                    }
+                    console.warn(`Failed to fetch PRs reviewed for ${repo}: ${res.status} ${res.statusText}`);
+                    return 'N/A';
+                }).catch(err => {
+                    console.error(`Network error fetching PRs reviewed for ${repo}:`, err);
+                    return 'N/A';
+                });
 
-                // 3. PRs Reviewed
-                const prsReviewedResponse = await fetch(`https://api.github.com/search/issues?q=repo:${owner}/${repo}+type:pr+reviewed-by:${username}`);
-                if (prsReviewedResponse.ok) {
-                    const prsReviewedData = await prsReviewedResponse.json();
-                    contributions.prsReviewed = prsReviewedData.total_count;
-                } else {
-                    console.warn(`Failed to fetch PRs reviewed for ${repo}: ${prsReviewedResponse.status} ${prsReviewedResponse.statusText}`);
-                }
+            try {
+                const [commitsCount, prsCreatedCount, prsReviewedCount] = await Promise.all([
+                    commitPromise,
+                    prCreatedPromise,
+                    prReviewedPromise
+                ]);
+                contributions.commits = commitsCount;
+                contributions.prsCreated = prsCreatedCount;
+                contributions.prsReviewed = prsReviewedCount;
             } catch (error) {
-                console.error(`Error fetching contributions for ${owner}/${repo}:`, error);
+                // This catch might not be strictly necessary if individual promises handle their errors,
+                // but it's good for a general catch-all for Promise.all itself.
+                console.error(`Overall error fetching project contributions for ${owner}/${repo}:`, error);
             }
+
             console.log(`Contributions for ${owner}/${repo}:`, contributions);
             return contributions;
         }
@@ -1031,17 +1084,33 @@
 
         async function fetchFreshGitHubData() {
             console.log("Fetching fresh GitHub data from API...");
-            const userResponse = await fetch(GITHUB_API_USER_URL);
-            if (!userResponse.ok) throw new Error(`GitHub user API request failed: ${userResponse.status} ${userResponse.statusText}`);
-            const userData = await userResponse.json();
 
-            const { allRepos: allFetchedRepos, totalStars: totalStarsAllRepos } = await fetchAllUserReposAndStars(GITHUB_USERNAME);
+            // Define all top-level promises
+            const userPromise = fetch(GITHUB_API_USER_URL).then(res => {
+                if (!res.ok) throw new Error(`GitHub user API request failed: ${res.status} ${res.statusText}`);
+                return res.json();
+            });
+            const repoStarPromise = fetchAllUserReposAndStars(GITHUB_USERNAME); // Already optimized internally
+            const vllmContribPromise = fetchProjectContributionData(GITHUB_USERNAME, 'vllm-project', 'vllm-spyre');
+            const mouseMoverContribPromise = fetchProjectContributionData(GITHUB_USERNAME, GITHUB_USERNAME, 'automatic-mouse-mover');
+
+            // Execute all primary fetches in parallel
+            const [
+                userData,
+                repoStarData,
+                vllmContributions,
+                mouseMoverContributions
+            ] = await Promise.all([
+                userPromise,
+                repoStarPromise,
+                vllmContribPromise,
+                mouseMoverContribPromise
+            ]);
+
+            const { allRepos: allFetchedRepos, totalStars: totalStarsAllRepos } = repoStarData;
             const sortedRepos = [...allFetchedRepos].sort((a, b) => (b.stargazers_count || 0) - (a.stargazers_count || 0));
             const topStarredReposData = sortedRepos.slice(0, 3);
 
-            const vllmContributions = await fetchProjectContributionData(GITHUB_USERNAME, 'vllm-project', 'vllm-spyre');
-            const mouseMoverContributions = await fetchProjectContributionData(GITHUB_USERNAME, GITHUB_USERNAME, 'automatic-mouse-mover');
-            // For WatsonX, we don't fetch, we use a static message.
             const watsonxContributions = {
                 isPrivate: true,
                 message: "Public contributions are not available for this project. Nevertheless, I played a \
