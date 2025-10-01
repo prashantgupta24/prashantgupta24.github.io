@@ -737,6 +737,7 @@
     <script>
         // --- START CONSTANTS AND DOM ELEMENTS ---
         const GITHUB_USERNAME = 'prashantgupta24';
+        const GITHUB_FULL_NAME = 'Prashant Gupta'; // For co-author check
         const GITHUB_API_USER_URL = `https://api.github.com/users/${GITHUB_USERNAME}`;
         const GITHUB_API_ALL_REPOS_BASE_URL = `https://api.github.com/users/${GITHUB_USERNAME}/repos?per_page=100`;
 
@@ -947,6 +948,68 @@
         // --- END CACHING LOGIC ---
 
         // --- START GITHUB API FETCHING ---
+        async function getPaginatedCommits(params, owner, repo) {
+            let allCommits = [];
+            let page = 1;
+            const baseUrl = `https://api.github.com/repos/${owner}/${repo}/commits`;
+            while (true) {
+                try {
+                    const url = new URL(baseUrl);
+                    Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
+                    url.searchParams.append("per_page", "100");
+                    url.searchParams.append("page", page);
+                    
+                    const response = await fetch(url.toString());
+                    if (!response.ok) {
+                        if (response.status === 409 || response.status === 404) {
+                             console.warn(`Repo ${owner}/${repo} might be empty or not found. Status: ${response.status}`);
+                             break;
+                        }
+                        throw new Error(`HTTP error! status: ${response.status} ${response.statusText}`);
+                    }
+                    const data = await response.json();
+                    if (data.length === 0) break;
+                    allCommits = allCommits.concat(data);
+                    if (data.length < 100) break;
+                    page++;
+                } catch (e) {
+                    console.error(`Error fetching paginated commits for ${owner}/${repo}: ${e.message}`);
+                    break;
+                }
+            }
+            return allCommits;
+        }
+
+        async function fetchComprehensiveCommitCount(username, fullName, owner, repo) {
+            console.log(`Fetching comprehensive commit count for ${owner}/${repo}...`);
+            const uniqueCommits = new Map();
+
+            // Run all three fetch operations in parallel
+            const [authorCommits, committerCommits, allRepoCommits] = await Promise.all([
+                getPaginatedCommits({ author: username }, owner, repo),
+                getPaginatedCommits({ committer: username }, owner, repo),
+                getPaginatedCommits({}, owner, repo) // For co-author check
+            ]);
+
+            // De-duplicate results
+            authorCommits.forEach(commit => uniqueCommits.set(commit.sha, commit));
+            committerCommits.forEach(commit => uniqueCommits.set(commit.sha, commit));
+            
+            allRepoCommits.forEach(commit => {
+                const message = commit?.commit?.message || '';
+                const isCoAuthor = message.split('\n').some(line => 
+                    line.toLowerCase().startsWith('co-authored-by:') && (line.toLowerCase().includes(fullName.toLowerCase()) || line.toLowerCase().includes(username.toLowerCase()))
+                );
+                if (isCoAuthor) {
+                    uniqueCommits.set(commit.sha, commit);
+                }
+            });
+
+            console.log(`Found ${uniqueCommits.size} unique commits for ${username} in ${owner}/${repo}.`);
+            return uniqueCommits.size;
+        }
+
+
         async function fetchAllUserReposAndStars(username) {
             let allFetchedRepos = [];
             let calculatedTotalStars = 0;
@@ -1019,54 +1082,29 @@
         }
 
 
-        async function fetchProjectContributionData(username, owner, repo) {
+        async function fetchProjectContributionData(username, fullName, owner, repo) {
             let contributions = { commits: 'N/A', prsCreated: 'N/A', prsReviewed: 'N/A' };
             console.log(`Fetching contributions for ${owner}/${repo}...`);
 
-            // Create promises for each API call for this specific project
-            const commitPromise = fetch(`https://api.github.com/search/commits?q=repo:${owner}/${repo}+author:${username}`, {
-                headers: { 'Accept': 'application/vnd.github.cloak-preview+json' }
-            }).then(async res => {
-                if (res.ok) {
-                    const data = await res.json();
-                    return data.total_count;
-                }
-                console.warn(`Failed to fetch commit count for ${repo} via search: ${res.status} ${res.statusText}`);
-                return 'N/A'; // Return 'N/A' or specific error for this part
-            }).catch(err => {
-                console.error(`Network error fetching commits for ${repo}:`, err);
-                return 'N/A';
-            });
+            const commitCountPromise = fetchComprehensiveCommitCount(username, fullName, owner, repo);
 
             const prCreatedPromise = fetch(`https://api.github.com/search/issues?q=repo:${owner}/${repo}+type:pr+author:${username}`)
-                .then(async res => {
-                    if (res.ok) {
-                        const data = await res.json();
-                        return data.total_count;
-                    }
-                    console.warn(`Failed to fetch PRs created for ${repo}: ${res.status} ${res.statusText}`);
-                    return 'N/A';
-                }).catch(err => {
+                .then(res => res.ok ? res.json().then(data => data.total_count) : 'N/A')
+                .catch(err => {
                     console.error(`Network error fetching PRs created for ${repo}:`, err);
                     return 'N/A';
                 });
 
             const prReviewedPromise = fetch(`https://api.github.com/search/issues?q=repo:${owner}/${repo}+type:pr+reviewed-by:${username}`)
-                .then(async res => {
-                    if (res.ok) {
-                        const data = await res.json();
-                        return data.total_count;
-                    }
-                    console.warn(`Failed to fetch PRs reviewed for ${repo}: ${res.status} ${res.statusText}`);
-                    return 'N/A';
-                }).catch(err => {
+                .then(res => res.ok ? res.json().then(data => data.total_count) : 'N/A')
+                .catch(err => {
                     console.error(`Network error fetching PRs reviewed for ${repo}:`, err);
                     return 'N/A';
                 });
 
             try {
                 const [commitsCount, prsCreatedCount, prsReviewedCount] = await Promise.all([
-                    commitPromise,
+                    commitCountPromise,
                     prCreatedPromise,
                     prReviewedPromise
                 ]);
@@ -1086,15 +1124,15 @@
 
         async function fetchFreshGitHubData() {
             console.log("Fetching fresh GitHub data from API...");
-
+            
             // Define all top-level promises
             const userPromise = fetch(GITHUB_API_USER_URL).then(res => {
                 if (!res.ok) throw new Error(`GitHub user API request failed: ${res.status} ${res.statusText}`);
                 return res.json();
             });
             const repoStarPromise = fetchAllUserReposAndStars(GITHUB_USERNAME); // Already optimized internally
-            const vllmContribPromise = fetchProjectContributionData(GITHUB_USERNAME, 'vllm-project', 'vllm-spyre');
-            const mouseMoverContribPromise = fetchProjectContributionData(GITHUB_USERNAME, GITHUB_USERNAME, 'automatic-mouse-mover');
+            const vllmContribPromise = fetchProjectContributionData(GITHUB_USERNAME, GITHUB_FULL_NAME, 'vllm-project', 'vllm-spyre');
+            const mouseMoverContribPromise = fetchProjectContributionData(GITHUB_USERNAME, GITHUB_FULL_NAME, GITHUB_USERNAME, 'automatic-mouse-mover');
 
             // Execute all primary fetches in parallel
             const [
@@ -1268,7 +1306,7 @@
 
         // Initialize skill bars if they exist
         if (skillsContainer) createSkillBars();
-
+        
         // Apply scroll animations to project cards
         document.querySelectorAll('.project-card').forEach(card => observer.observe(card));
 
